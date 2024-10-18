@@ -5,16 +5,8 @@
 
 #include "definitions.h"
 #include "qsort.h"
+#include "mergeSort.h"
 #include "helper.h"
-
-void printArray(int *arr)
-{
-    for(int i = 0; i < gN; ++i)
-    {
-        printf("%d ", arr[i]);
-    }
-    printf("\n");
-}
 
 /**
  * @function verifyArray
@@ -108,6 +100,43 @@ int main(void)
         {
             printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_QUICKSORT_RECURSIVE);
         }
+    }
+    printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
+    printf("***********************\n");
+
+    // merge sort recursive
+    printf("starting %s \n", SORT_TYPE_MERGESORT_RECURSIVE);
+    sum = 0;
+    for(i = 0; i < gLOOP; ++i)
+    {
+        memcpy(arr, restoreArr, sizeof(int) * uArrSize);
+        begin = clock();
+        mergeSortRecursive(arr, uArrSize);
+        end = clock();
+        sum += (end - begin);
+        if(verifyArray(arr, uArrSize) == false)
+        {
+            printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_MERGESORT_RECURSIVE);
+        }
+    }
+    printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
+    printf("***********************\n");
+
+    // merge sort iterative
+    printf("starting %s \n", SORT_TYPE_MERGESORT_ITERATIVE);
+    sum = 0;
+    for(i = 0; i < gLOOP; ++i)
+    {
+        memcpy(arr, restoreArr, sizeof(int) * uArrSize);
+        begin = clock();
+        mergeSortIterative(arr, uArrSize);
+        end = clock();
+        sum += (end - begin);
+        if(verifyArray(arr, uArrSize) == false)
+        {
+            printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_MERGESORT_ITERATIVE);
+        }
+        // printArray(arr, uArrSize);
     }
     printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
     printf("***********************\n");

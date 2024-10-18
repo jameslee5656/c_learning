@@ -16,7 +16,7 @@
 int merge(int* arr, const unsigned int uArrSize,
     unsigned int uLeft, unsigned int uMid, unsigned int uRight)
 {
-    static int mergeArr[gSTACK_SIZE + 2];
+    static int mergeArr[gSTACK_SIZE];
     int i = 0, leftIndex = 0, rightIndex = 0;
 
     if(arr == NULL)
@@ -91,8 +91,8 @@ void __mergeSortRecursive(
     uMid = uLeft + (uRight - uLeft) / 2;
     __mergeSortRecursive(arr, uArrSize, uLeft, uMid);
     __mergeSortRecursive(arr, uArrSize, uMid + 1, uRight);
-    result = merge(arr, uArrSize, uLeft, uMid, uRight);
 
+    result = merge(arr, uArrSize, uLeft, uMid, uRight);
     if(result == -1)
     {
         printf("%s, %s\n", ERROR_SORTTING_FAILED, SORT_TYPE_MERGESORT_RECURSIVE);
@@ -133,9 +133,9 @@ void mergeSortIterative(int *arr, const unsigned int uArrSize)
 
     for(uCurSize = 1; uCurSize < uArrSize; uCurSize *= 2)
     {
-        for(uLeft = 0; uLeft < uArrSize - 1; uLeft += uCurSize * 2)
+        for(uLeft = 0; uLeft + uCurSize < uArrSize; uLeft += uCurSize * 2)
         {
-            uMid = min(uLeft + uCurSize - 1, uArrSize - 1);
+            uMid = uLeft + uCurSize - 1;
             uRight = min(uLeft + uCurSize * 2 - 1, uArrSize - 1);
 
             merge(arr, uArrSize, uLeft, uMid, uRight);

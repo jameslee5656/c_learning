@@ -136,7 +136,6 @@ int main(void)
         {
             printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_MERGESORT_ITERATIVE);
         }
-        // printArray(arr, uArrSize);
     }
     printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
     printf("***********************\n");

@@ -39,8 +39,8 @@ void __quickSortRecursive(int* arr, const unsigned int uArrSize,
 void quickSortRecursive(int* arr, const unsigned int uArrSize);
 
 /**
- * @public function quickSortRecursive
- * @abstract recursively quick sort an integer array
+ * @function quickSortIterative
+ * @abstract do the quick sort iteratively with an integer array
  * @param arr pointing to the integer array
  * @param uArrSize expected size of the array
  * @return

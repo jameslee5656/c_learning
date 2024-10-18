@@ -19,7 +19,7 @@
  * @param uArrSize expected size of the array
  * @param uLeft left side of the partition location, included left
  * @param uRight right side of the partition location, included right
- * @return partition location, if invalid inputs returning left
+ * @return partition location, if invalid inputs returning -1
  */
 int partition(int* arr, const unsigned int uArrSize, unsigned int uLeft, unsigned int uRight)
 {
@@ -196,7 +196,7 @@ void __quickSortRecursive(
 void quickSortIterative(int* arr, const unsigned int uArrSize)
 {
     // iStack store (left, right) at one time
-    int iStack[uArrSize];
+    static int iStack[gSTACK_SIZE];
     int left = 0, right = 0;
     int iStackIndex = -1, index = 0;
 
@@ -205,7 +205,6 @@ void quickSortIterative(int* arr, const unsigned int uArrSize)
         printf("%s\n", ERROR_ARRAY_INVALID);
         return;
     }
-
 
     if(uArrSize <= 0)
     {
@@ -218,7 +217,7 @@ void quickSortIterative(int* arr, const unsigned int uArrSize)
     iStack[++iStackIndex] = 0;
     iStack[++iStackIndex] = uArrSize - 1;
 
-    while(iStackIndex >= 0)
+    while(iStackIndex >= 0 && index < gSTACK_SIZE)
     {
         right = iStack[iStackIndex--];
         left = iStack[iStackIndex--];
@@ -238,5 +237,10 @@ void quickSortIterative(int* arr, const unsigned int uArrSize)
             iStack[++iStackIndex] = right;
         }
     }
-}
 
+    if(index >= gSTACK_SIZE)
+    {
+        printf("%s %s\n", ERROR_SORTTING_FAILED, ERROR_DETAIL_INDEX_EXCEED_STACK_SIZE);
+        return;
+    }
+}

@@ -2,7 +2,7 @@
 #define DEFINITIONS_H
 
 // gN should not be larger than INT_MAX(2147483647)
-// #define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define gN                      5
 #else

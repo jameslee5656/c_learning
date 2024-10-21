@@ -5,6 +5,7 @@ add_library(sort_lib
     helper.c
     qsort.c
     mergeSort.c
+    heapSort.c
 )
 
 add_executable(sort main.c)

@@ -2,7 +2,7 @@
 #define DEFINITIONS_H
 
 // gN should not be larger than INT_MAX(2147483647)
-#define DEBUG
+// #define DEBUG
 #ifdef DEBUG
 #define gN                      5
 #else
@@ -19,6 +19,7 @@
 
 #define ERROR_DETAIL_INVALID_ULEFT      "invalid uLeft"
 #define ERROR_DETAIL_INVALID_URIGHT     "invalid uRight"
+#define ERROR_DETAIL_INVALID_UINDEX     "invalid uIndex"
 #define ERROR_DETAIL_LEFT_RIGHT_LARGER_ARR_SIZE     "left ~ right length is longer than uArrSize"
 #define ERROR_DETAIL_INVALID_ARRAY_SIZE             "invalid array_size"
 #define ERROR_DETAIL_INDEX_EXCEED_STACK_SIZE        "index exceed stack size"
@@ -27,8 +28,11 @@
 #define SORT_TYPE_QUICKSORT_ITERATIVE       "quickSortIterative"
 #define SORT_TYPE_MERGESORT_RECURSIVE       "mergeSortRecursive"
 #define SORT_TYPE_MERGESORT_ITERATIVE       "mergeSortIterative"
+#define SORT_TYPE_HEAPSORT_RECURSIVE        "heapSortRecursive"
+#define SORT_TYPE_HEAPSORT_ITERATIVE        "heapSortIterative"
 
 #define FUNC_NAME_PARTITION     "parition"
 #define FUNC_NAME_MERGE         "merge"
+#define FUNC_NAME_BUILDHEAP     "buildHeap"
 
 #endif // DEFINITIONS_H

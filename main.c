@@ -66,97 +66,140 @@ int main(void)
         swap(&arr[i], &arr[j]);
     }
 
+#ifdef DEBUG
+    printArray(arr, uArrSize);
+#endif // DEBUG
+
     // copy one to restore
     int restoreArr[uArrSize];
     memcpy(restoreArr, arr, sizeof(int) * uArrSize);
 
     // quick sort iterative
-    // printf("starting %s \n", SORT_TYPE_QUICKSORT_ITERATIVE);
-    // for(i = 0; i < gLOOP; ++i)
-    // {
-    //     memcpy(arr, restoreArr, sizeof(int) * uArrSize);
-    //     begin = clock();
-    //     quickSortIterative(arr, uArrSize);
-    //     end = clock();
-    //     sum += (end - begin);
-    //     if(verifyArray(arr, uArrSize) == false)
-    //     {
-    //         printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_QUICKSORT_ITERATIVE);
-    //     }
-    // }
-    // printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
-    // printf("***********************\n");
+    {
+        printf("starting %s \n", SORT_TYPE_QUICKSORT_ITERATIVE);
+        for(i = 0; i < gLOOP; ++i)
+        {
+            memcpy(arr, restoreArr, sizeof(int) * uArrSize);
+            begin = clock();
+            quickSortIterative(arr, uArrSize);
+            end = clock();
+            sum += (end - begin);
+            if(verifyArray(arr, uArrSize) == false)
+            {
+                printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_QUICKSORT_ITERATIVE);
+            }
+        }
+        printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
+        printf("***********************\n");
+    }
 
-    // // quick sort recursive
-    // printf("starting %s \n", SORT_TYPE_QUICKSORT_RECURSIVE);
-    // sum = 0;
-    // for(i = 0; i < gLOOP; ++i)
-    // {
-    //     memcpy(arr, restoreArr, sizeof(int) * uArrSize);
-    //     begin = clock();
-    //     quickSortRecursive(arr, uArrSize);
-    //     end = clock();
-    //     sum += (end - begin);
-    //     if(verifyArray(arr, uArrSize) == false)
-    //     {
-    //         printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_QUICKSORT_RECURSIVE);
-    //     }
-    // }
-    // printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
-    // printf("***********************\n");
+    // quick sort recursive
+    {
+        printf("starting %s \n", SORT_TYPE_QUICKSORT_RECURSIVE);
+        sum = 0;
+        for(i = 0; i < gLOOP; ++i)
+        {
+            memcpy(arr, restoreArr, sizeof(int) * uArrSize);
+            begin = clock();
+            quickSortRecursive(arr, uArrSize);
+            end = clock();
+            sum += (end - begin);
+            if(verifyArray(arr, uArrSize) == false)
+            {
+                printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_QUICKSORT_RECURSIVE);
+            }
+        }
+        printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
+        printf("***********************\n");
+    }
 
-    // // merge sort recursive
-    // printf("starting %s \n", SORT_TYPE_MERGESORT_RECURSIVE);
-    // sum = 0;
-    // for(i = 0; i < gLOOP; ++i)
-    // {
-    //     memcpy(arr, restoreArr, sizeof(int) * uArrSize);
-    //     begin = clock();
-    //     mergeSortRecursive(arr, uArrSize);
-    //     end = clock();
-    //     sum += (end - begin);
-    //     if(verifyArray(arr, uArrSize) == false)
-    //     {
-    //         printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_MERGESORT_RECURSIVE);
-    //     }
-    // }
-    // printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
-    // printf("***********************\n");
-
-    // // merge sort iterative
-    // printf("starting %s \n", SORT_TYPE_MERGESORT_ITERATIVE);
-    // sum = 0;
-    // for(i = 0; i < gLOOP; ++i)
-    // {
-    //     memcpy(arr, restoreArr, sizeof(int) * uArrSize);
-    //     begin = clock();
-    //     mergeSortIterative(arr, uArrSize);
-    //     end = clock();
-    //     sum += (end - begin);
-    //     if(verifyArray(arr, uArrSize) == false)
-    //     {
-    //         printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_MERGESORT_ITERATIVE);
-    //     }
-    // }
-    // printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
-    // printf("***********************\n");
+    // merge sort recursive
+    {
+        printf("starting %s \n", SORT_TYPE_MERGESORT_RECURSIVE);
+        sum = 0;
+        for(i = 0; i < gLOOP; ++i)
+        {
+            memcpy(arr, restoreArr, sizeof(int) * uArrSize);
+            begin = clock();
+            mergeSortRecursive(arr, uArrSize);
+            end = clock();
+            sum += (end - begin);
+            if(verifyArray(arr, uArrSize) == false)
+            {
+                printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_MERGESORT_RECURSIVE);
+            }
+        }
+        printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
+        printf("***********************\n");
+    }
 
     // merge sort iterative
-    printf("starting %s \n", SORT_TYPE_MERGESORT_ITERATIVE);
-    sum = 0;
-    for(i = 0; i < gLOOP; ++i)
     {
-        memcpy(arr, restoreArr, sizeof(int) * uArrSize);
-        begin = clock();
-        // mergeSortIterative(arr, uArrSize);
-        buildHeap(arr, uArrSize);
-
-        // end = clock();
-        // sum += (end - begin);
-        // if(verifyArray(arr, uArrSize) == false)
-        // {
-        //     printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_MERGESORT_ITERATIVE);
-        // }
+        printf("starting %s \n", SORT_TYPE_MERGESORT_ITERATIVE);
+        sum = 0;
+        for(i = 0; i < gLOOP; ++i)
+        {
+            memcpy(arr, restoreArr, sizeof(int) * uArrSize);
+            begin = clock();
+            mergeSortIterative(arr, uArrSize);
+            end = clock();
+            sum += (end - begin);
+            if(verifyArray(arr, uArrSize) == false)
+            {
+                printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_MERGESORT_ITERATIVE);
+            }
+        }
+        printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
+        printf("***********************\n");
     }
-    // printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
+
+    // heap sort recursively
+    {
+        printf("starting %s \n", SORT_TYPE_HEAPSORT_RECURSIVE);
+        sum = 0;
+        for(i = 0; i < gLOOP; ++i)
+        {
+            memcpy(arr, restoreArr, sizeof(int) * uArrSize);
+            begin = clock();
+            // recursively
+            heapSort(arr, uArrSize, true);
+
+            end = clock();
+            sum += (end - begin);
+            if(verifyArray(arr, uArrSize) == false)
+            {
+                printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_HEAPSORT_RECURSIVE);
+            }
+    #ifdef DEBUG
+            printArray(arr, uArrSize);
+    #endif // DEBUG
+        }
+        printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
+        printf("***********************\n");
+    }
+
+    // heap sort iteratively
+    {
+        printf("starting %s \n", SORT_TYPE_HEAPSORT_ITERATIVE);
+        sum = 0;
+        for(i = 0; i < gLOOP; ++i)
+        {
+            memcpy(arr, restoreArr, sizeof(int) * uArrSize);
+            begin = clock();
+            // recursively
+            heapSort(arr, uArrSize, true);
+
+            end = clock();
+            sum += (end - begin);
+            if(verifyArray(arr, uArrSize) == false)
+            {
+                printf("%s %s\n", ERROR_VERIFY_FAILURE, SORT_TYPE_HEAPSORT_ITERATIVE);
+            }
+    #ifdef DEBUG
+            printArray(arr, uArrSize);
+    #endif // DEBUG
+        }
+        printf("Spend Time:[%f]\n", (float) sum / gLOOP / CLOCKS_PER_SEC);
+        printf("***********************\n");
+    }
 }

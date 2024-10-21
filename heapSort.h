@@ -7,59 +7,60 @@
 #include <limits.h>
 
 #include "helper.h"
-#include "definitions.h"
 
 ////////////////////
 // heap Sort
 ////////////////////
-// implementing a min-heap ADT to complete the sort
+// implementing a max-heap ADT to complete the sort
 
 /**
- * @function max heapify
- * @abstract the basic routine for heap sort, heapify the arr
+ * @function maxHeapifyRecursive
+ * @abstract the basic routine for heap sort,
+ *           heapify the maxHeap at uIndex recursively
+ * ! uIndex is 0-based
  *
- * @param heap pointer pointing to the heap
+ * @param maxHeap pointer pointing to the heap
  * @param uHeapSize how many element that are in the current heap
+ * @param uIndex the index location to do the heapify operation
+ * @return if invalid inputs returning -1, return 0 if merged successfully
+ */
+int maxHeapifyRecursive(
+    int* maxHeap, const unsigned int uArrSize, const unsigned int uIndex);
+
+/**
+ * @function maxHeapifyIterative
+ * @abstract the basic routine for heap sort,
+ *           heapify the maxHeap at uIndex iteratively
+ * ! uIndex is 0-based
+ *
+ * @param maxHeap pointer pointing to the heap
+ * @param uHeapSize how many element that are in the current heap
+ * @param uIndex the index location to do the heapify operation
  * @return if invalid inputs returning -1, return 0 if merged successfully;
  */
-int minHeapify(int* minHeap, const unsigned int uHeapSize, const unsigned int uIndex);
-
-void buildHeap(int* arr, const unsigned int uArrSize);
-
+int maxHeapifyIterative(
+    int* maxHeap, const unsigned int uArrSize, const unsigned int uIndex);
 
 /**
- * @private function __mergeSortRecursive
- * @abstract recursively being called by itself and mergeSortRecursive
- * to perform merge sort recursively
+ * @function buildHeap
+ * @abstract build a maxHeap stucture from an unsorted array
+ *
+ * @param arr unsorted array
+ * @param uArrSize the size of the array
+ * @param bRecursive running recursively (or false, run iteratively)
+ * @return
+ */
+void buildHeap(int* arr, const unsigned int uArrSize, bool bRecursive);
+
+/**
+ * @function heapSort
+ * @abstract to perform heap sort on interger array
  *
  * @param arr pointer pointing to the integer array
  * @param uArrSize expected size of the array
- * @param uLeft left side of the merge location, included left
- * @param uRight right side of the merge location, included right
+ * @param bRecursive whether to run recursively (or false, run iteratively)
  * @return
  */
-// void __mergeSortRecursive(
-    // int *arr, const unsigned int uArrSize, unsigned int uLeft, unsigned int uRight);
-
-/**
- * @public function mergeSortRecursive
- * @abstract to perform recursive merge sort on interger array
- *
- * @param arr pointer pointing to the integer array
- * @param uArrSize expected size of the array
- * @return
- */
-// void heapSortRecursive(int *arr, const unsigned int uArrSize);
-// void mergeSortRecursive(int *arr, const unsigned int uArrSize);
-
-/**
- * @public function mergeSortIterative
- * @abstract to perform iterative merge sort on interger array
- *
- * @param arr pointer pointing to the integer array
- * @param uArrSize expected size of the array
- * @return
- */
-// void mergeSortIterative(int *arr, const unsigned int uArrSize);
+void heapSort(int* arr, const unsigned int uArrSize, bool bRecursive);
 
 #endif // HEAPSORT_H

@@ -36,4 +36,38 @@
 int partition(int *arr, const unsigned int uArrSize,
     unsigned int uLeft, unsigned int uRight);
 
+/**
+ * @private function __quickSortRecursive
+ * @abstract do the quick sort recursively with an integer array
+ * @param arr pointing to the integer array
+ * @param uArrSize expected size of the array
+ * @param uLeft left side of the partition location, included left
+ * @param uRight right side of the partition location, included right
+ * @return
+*/
+void __quickSortRecursive(int* arr, const unsigned int uArrSize,
+    unsigned int uLeft, unsigned int uRight);
+
+/**
+ * @public function quickSortRecursive
+ * @abstract recursively quick sort an integer array
+ * @param arr pointing to the integer array
+ * @param uArrSize expected size of the array
+ * @return
+*/
+void quickSortRecursive(int* arr, const unsigned int uArrSize);
+
+/**
+ * @public function quickSortIterative
+ * @abstract iteratively quick sort an integer array
+ * iStack's size should always either be 0 or 2's multiple number
+ * example
+ * iStack[1] = uArrSize - 1 (uRight)
+ * iStack[0] = 0 (uLeft)
+ * @param arr pointing to the integer array
+ * @param uArrSize expected size of the array
+ * @return
+*/
+void quickSortIterative(int *arr, const unsigned int uArrSize);
+
 #endif // QSORT_H

@@ -6,3 +6,12 @@ void swap(int *a1, int *a2)
     *a1 = *a2;
     *a2 = temp;
 }
+
+void printArray(int *arr, const unsigned int uArrSize)
+{
+    for(int i = 0; i < uArrSize; ++i)
+    {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}

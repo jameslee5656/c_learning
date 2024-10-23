@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "definitions.h"
+#include "helper.h"
 #include "tests.h"
 
 // checkIsSame, check if arr1 and arr2 is the same
@@ -29,7 +30,7 @@ bool checkIsSame(int *arr1, int *arr2, const unsigned int uArrSize)
 -14, -14, -14, -14, -14
 1, 2, 3, 4, 5
 */
-void unitTest(void (*sortFunc)(int *, const unsigned int), char *sSortName)
+void unitTestSortFunc(void (*sortFunc)(int *, const unsigned int), char *sSortName)
 {
     unsigned int uArrSize = 0;
     unsigned int uTestNum = 0;
@@ -152,4 +153,141 @@ bool verifyArray(int* arr, const unsigned int uArrSize)
     }
 
     return true;
+}
+
+// check that if the parition function is correct
+bool checkPartitionIsCorrect(
+    int *arr, const unsigned int uArrSize, int iPartitionIndex)
+{
+    int i = 0;
+    int pivot = 0;
+
+    if(iPartitionIndex >= uArrSize || iPartitionIndex < 0)
+    {
+        return false;
+    }
+
+    pivot = arr[iPartitionIndex];
+
+    // check the left side of the iPartitionIndex is all smaller than pivot
+    for(i = 0; i < iPartitionIndex; ++i)
+    {
+        if(arr[i] >= pivot)
+        {
+            return false;
+        }
+    }
+
+    // check the right side of the iParitionIndex is not smaller than pivot
+    for(i = iPartitionIndex + 1; i < uArrSize; ++i)
+    {
+        if(arr[i] < pivot)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+/*
+* unitTestPartitionFunc, unit test partitionFunc to make sure that the below cases passed
+3, 1, 4, 2, 5
+4, 3, 2, 5, 1
+4, 4, 4, 4, 4
+0, 1, 2, 3, 4
+5, 1, 2, 3, 4
+0, -5, 4, 2, -3
+*/
+void unitTestPartitionFunc(
+    int (*partitionFunc)(int *, const unsigned int, unsigned int, unsigned int))
+{
+    unsigned int uArrSize = 0;
+    unsigned int uTestNum = 0;
+    int i = 0, partitionIndex = 0;
+    int test1[5] = {3, 1, 4, 2, 5};
+    int test2[5] = {4, 3, 2, 5, 1};
+    int test3[5] = {4, 4, 4, 4, 4};
+    int test4[5] = {0, 1, 2, 3, 4};
+    int test5[5] = {5, 1, 2, 3, 4};
+    int test6[5] = {0, -5, 4, 2, -3};
+
+    // unitTest1
+    {
+        uTestNum = 1;
+        uArrSize = 5;
+        partitionIndex = partitionFunc(test1, uArrSize, 0, uArrSize - 1);
+        if(checkPartitionIsCorrect(test1, uArrSize, partitionIndex) == false)
+        {
+            printf("%s, %s, %s%u\n"
+                , ERROR_UNITTEST_FAILURE, FUNC_NAME_PARTITION, FUNC_NAME_UNITTEST, uTestNum);
+            return;
+        }
+    }
+
+    // unitTest2
+    {
+        uTestNum = 2;
+        uArrSize = 5;
+        partitionIndex = partitionFunc(test2, uArrSize, 0, uArrSize - 1);
+        if(checkPartitionIsCorrect(test2, uArrSize, partitionIndex) == false)
+        {
+            printf("%s, %s, %s%u\n"
+                , ERROR_UNITTEST_FAILURE, FUNC_NAME_PARTITION, FUNC_NAME_UNITTEST, uTestNum);
+            return;
+        }
+    }
+
+    // unitTest3
+    {
+        uTestNum = 3;
+        uArrSize = 5;
+        partitionIndex = partitionFunc(test3, uArrSize, 0, uArrSize - 1);
+        if(checkPartitionIsCorrect(test3, uArrSize, partitionIndex) == false)
+        {
+            printf("%s, %s, %s%u\n"
+                , ERROR_UNITTEST_FAILURE, FUNC_NAME_PARTITION, FUNC_NAME_UNITTEST, uTestNum);
+            return;
+        }
+    }
+
+    // unitTest4
+    {
+        uTestNum = 4;
+        uArrSize = 5;
+        partitionIndex = partitionFunc(test4, uArrSize, 0, uArrSize - 1);
+        if(checkPartitionIsCorrect(test4, uArrSize, partitionIndex) == false)
+        {
+            printf("%s, %s, %s%u\n"
+                , ERROR_UNITTEST_FAILURE, FUNC_NAME_PARTITION, FUNC_NAME_UNITTEST, uTestNum);
+            return;
+        }
+    }
+
+    // unitTest5
+    {
+        uTestNum = 5;
+        uArrSize = 5;
+        partitionIndex = partitionFunc(test5, uArrSize, 0, uArrSize - 1);
+        if(checkPartitionIsCorrect(test5, uArrSize, partitionIndex) == false)
+        {
+            printf("%s, %s, %s%u\n"
+                , ERROR_UNITTEST_FAILURE, FUNC_NAME_PARTITION, FUNC_NAME_UNITTEST, uTestNum);
+            return;
+        }
+    }
+
+    // unitTest6
+    {
+        uTestNum = 6;
+        uArrSize = 5;
+        partitionIndex = partitionFunc(test6, uArrSize, 0, uArrSize - 1);
+        if(checkPartitionIsCorrect(test6, uArrSize, partitionIndex) == false)
+        {
+            printf("%s, %s, %s%u\n"
+                , ERROR_UNITTEST_FAILURE, FUNC_NAME_PARTITION, FUNC_NAME_UNITTEST, uTestNum);
+            return;
+        }
+    }
 }

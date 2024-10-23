@@ -4,18 +4,21 @@
 // gN should not be larger than INT_MAX(2147483647)
 // #define DEBUG
 #ifdef DEBUG
-#define gN                      5
+#define gARR_SIZE               5
+#define gMAX_NUM                10
 #else
-#define gN                      1000 * 1000
+#define gARR_SIZE               1000 * 1000
+#define gMAX_NUM                1000 * 1000
 #endif // DEBUG
-#define gSTACK_SIZE             gN
+#define gSTACK_SIZE             gARR_SIZE
 #define gLOOP                   1
 
 #define ERROR_ARRAY_INVALID     "[Error] Input array is invalid"
 #define ERROR_INPUT_INVALID     "[Error] Input params is invalid"
 #define ERROR_VERIFY_FAILURE    "[Error] Sorting verify failure"
+#define ERROR_UNITTEST_FAILURE  "[Error] Unit test failure"
 #define ERROR_SORTTING_FAILED   "[Error] Sorting failed"
-#define ERROR_GN_LARGER_THAN_INT_MAX    "[Error] gN sets to big, shouldn't larger than INT_MAX(2147483647)"
+#define ERROR_GARR_SIZE_LARGER_THAN_GMAX_NUM    "[Error] gARR_SIZE sets to big, shouldn't larger than gMAX_NUM"
 
 #define ERROR_DETAIL_INVALID_ULEFT      "invalid uLeft"
 #define ERROR_DETAIL_INVALID_URIGHT     "invalid uRight"
@@ -31,7 +34,7 @@
 #define SORT_TYPE_HEAPSORT_RECURSIVE        "heapSortRecursive"
 #define SORT_TYPE_HEAPSORT_ITERATIVE        "heapSortIterative"
 
-#define FUNC_NAME_PARTITION     "parition"
+#define FUNC_NAME_PARTITION     "partition"
 #define FUNC_NAME_MERGE         "merge"
 #define FUNC_NAME_BUILDHEAP     "buildHeap"
 #define FUNC_NAME_UNITTEST      "unitTest"

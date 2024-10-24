@@ -19,11 +19,15 @@
  * 3, 1, 4, 2, 5
  * ^---index
  *    ^---i
+ * swap(++index = 1, i = 1);
  * 3, 1, 4, 2, 5
+ *
  * (2.2) arr[i] is smaller than pivot, do a swap with ++index
  * 3, 1, 4, 2, 5
  *    ^---index
  *          ^---i
+ *
+ * swap(++index = 2, i = 3);
  * 3, 1, 2, 4, 5
  *       ^---index
  *
@@ -31,7 +35,6 @@
  * 2, 1, 3, 4, 5
  *       ^---index
  * return index;
- *
  */
 int partition(int *arr, const unsigned int uArrSize,
     unsigned int uLeft, unsigned int uRight);

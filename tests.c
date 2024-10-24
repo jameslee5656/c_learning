@@ -155,7 +155,20 @@ bool verifyArray(int* arr, const unsigned int uArrSize)
     return true;
 }
 
+/**
+ * @function checkPartitionIsCorrect
+ * @abstract check if the array is partitioned correctly
+ *
+ * check that left of the arr[iPartitionIndex] is smaller
+ * and the right of arr[iPartitionIndex] is larger
+ *
+ * @param arr interger pointer pointing to partitioned array
+ * @param uArrSize unsigned int that is the array size
+ * @param iPartitionIndex the index that is where the partition number is at
+ * return bool, true means check passed, false is failed
+ */
 // check that if the parition function is correct
+//
 bool checkPartitionIsCorrect(
     int *arr, const unsigned int uArrSize, int iPartitionIndex)
 {
@@ -189,7 +202,6 @@ bool checkPartitionIsCorrect(
 
     return true;
 }
-
 
 /*
 * unitTestPartitionFunc, unit test partitionFunc to make sure that the below cases passed

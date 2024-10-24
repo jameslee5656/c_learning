@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "helper.h"
 
 void swap(int *a1, int *a2)

@@ -15,16 +15,17 @@
 * the array could have maximum 10^6 numbers
 */
 
-void sortTemplate(int *arr, const unsigned int uArrSize)
-{
-}
-
-int partitionTemplate(
-    int *arr, const unsigned int uArrsize, unsigned int left, unsigned int right)
-{
-    return 0;
-}
-
+/**
+ * @function loopSortAndTime
+ * @abstract looping the sorting function and print out how long it is
+ *
+ * @param sortFunc sorting function pointer
+ * @param sSortName char pointer for sorting name
+ * @param arr integer array that needed to be sort
+ * @param randomArr after the sort we could restore the random from this array
+ * @param uArrSize array size for both arr and randomArr
+ * return
+ */
 void loopSortAndTime(void (*sortFunc)(int *arr, const unsigned int uArrSize), char *sSortName
     , int *arr, int *randomArr, const unsigned int uArrSize)
 {
@@ -54,20 +55,20 @@ int main(void)
     int i = 0, j = 0, temp = 0, uArrSize = 0, iBase = 0;
     int arr[gARR_SIZE];
     int randomArr[gARR_SIZE];
-    int negArr[2];
+    int randomNegArr[2];
 
     time(&t);
     srand(t);
 
     uArrSize = gARR_SIZE;
-    negArr[0] = 1;
-    negArr[1] = -1;
+    randomNegArr[0] = 1;
+    randomNegArr[1] = -1;
     for(int i = 0; i < uArrSize; ++i)
     {
         // generate 0 ~ gMAX_NUM number
         arr[i] = rand() % (gMAX_NUM + 1);
         // randomly multiple -1 to become negative number
-        arr[i] *= negArr[rand() % 2];
+        arr[i] *= randomNegArr[rand() % 2];
     }
 
     memcpy(randomArr, arr, sizeof(int) * uArrSize);

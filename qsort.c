@@ -23,11 +23,15 @@
  * 3, 1, 4, 2, 5
  * ^---index
  *    ^---i
+ * swap(++index = 1, i = 1);
  * 3, 1, 4, 2, 5
+ *
  * (2.2) arr[i] is smaller than pivot, do a swap with ++index
  * 3, 1, 4, 2, 5
  *    ^---index
  *          ^---i
+ *
+ * swap(++index = 2, i = 3);
  * 3, 1, 2, 4, 5
  *       ^---index
  *
@@ -99,7 +103,7 @@ int partition(int *arr, const unsigned int uArrSize,
  * @param uArrSize expected size of the array
  * @return
 */
-void quickSortRecursive(int* arr, const unsigned int uArrSize)
+void quickSortRecursive(int *arr, const unsigned int uArrSize)
 {
     if(arr == NULL)
     {
@@ -127,7 +131,7 @@ void quickSortRecursive(int* arr, const unsigned int uArrSize)
  * @return
 */
 void __quickSortRecursive(
-    int* arr, const unsigned int uArrSize, unsigned int uLeft, unsigned int uRight)
+    int *arr, const unsigned int uArrSize, unsigned int uLeft, unsigned int uRight)
 {
     int index = 0;
 
@@ -187,8 +191,9 @@ void __quickSortRecursive(
  * @abstract iteratively quick sort an integer array
  * iStack's size should always either empty or 2's multiple number
  * example
- * iStack[1] = o (uLeft)
+ * iStack[1] = 0 (uLeft)
  * iStack[0] = uArrSize - 1 (uRight)
+ *
  * @param arr pointing to the integer array
  * @param uArrSize expected size of the array
  * @return

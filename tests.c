@@ -5,14 +5,14 @@
 #include "helper.h"
 #include "tests.h"
 
-// checkIsSame, check if arr1 and arr2 is the same
-bool checkIsSame(int *arr1, int *arr2, const unsigned int uArrSize)
+// checkIsSame, check if pnArray1 and pnArray2 is the same
+bool checkIsSame(int *pnArray1, int *pnArray2, const unsigned int uArraySize)
 {
     int i = 0;
 
-    for(i = 0; i < uArrSize; ++i)
+    for(i = 0; i < uArraySize; ++i)
     {
-        if(arr1[i] != arr2[i])
+        if(pnArray1[i] != pnArray2[i])
         {
             return false;
         }
@@ -30,9 +30,9 @@ bool checkIsSame(int *arr1, int *arr2, const unsigned int uArrSize)
 -14, -14, -14, -14, -14
 1, 2, 3, 4, 5
 */
-void unitTestSortFunc(void (*sortFunc)(int *, const unsigned int), char *sSortName)
+void unitTestSortFunc(void (*pfnSort)(int *, const unsigned int), char *psSortName)
 {
-    unsigned int uArrSize = 0;
+    unsigned int uArraySize = 0;
     unsigned int uTestNum = 0;
     int i = 0;
     int test1[5] = {0, 3, 1, 5, 2};
@@ -52,12 +52,12 @@ void unitTestSortFunc(void (*sortFunc)(int *, const unsigned int), char *sSortNa
     // 0, 3, 1, 5, 2
     {
         uTestNum = 1;
-        uArrSize = 5;
+        uArraySize = 5;
         sortFunc(test1, 5);
-        if(checkIsSame(test1, correct1, uArrSize) == false)
+        if(checkIsSame(test1, correct1, uArraySize) == false)
         {
             printf("%s, %s, %s%u\n"
-                , ERROR_VERIFY_FAILURE, sSortName, FUNC_NAME_UNITTEST, uTestNum);
+                , ERROR_VERIFY_FAILURE, psSortName, FUNC_NAME_UNITTEST, uTestNum);
             return;
         }
     }
@@ -66,12 +66,12 @@ void unitTestSortFunc(void (*sortFunc)(int *, const unsigned int), char *sSortNa
     // 0, 3, 1, 5, 2
     {
         uTestNum = 2;
-        uArrSize = 5;
+        uArraySize = 5;
         sortFunc(test2, 5);
-        if(checkIsSame(test2, correct2, uArrSize) == false)
+        if(checkIsSame(test2, correct2, uArraySize) == false)
         {
             printf("%s, %s, %s%u\n"
-                , ERROR_VERIFY_FAILURE, sSortName, FUNC_NAME_UNITTEST, uTestNum);
+                , ERROR_VERIFY_FAILURE, psSortName, FUNC_NAME_UNITTEST, uTestNum);
             return;
         }
     }
@@ -80,12 +80,12 @@ void unitTestSortFunc(void (*sortFunc)(int *, const unsigned int), char *sSortNa
     // 5, 4, 3, 2, 1
     {
         uTestNum = 3;
-        uArrSize = 5;
+        uArraySize = 5;
         sortFunc(test3, 5);
-        if(checkIsSame(test3, correct3, uArrSize) == false)
+        if(checkIsSame(test3, correct3, uArraySize) == false)
         {
             printf("%s, %s, %s%u\n"
-                , ERROR_VERIFY_FAILURE, sSortName, FUNC_NAME_UNITTEST, uTestNum);
+                , ERROR_VERIFY_FAILURE, psSortName, FUNC_NAME_UNITTEST, uTestNum);
             return;
         }
     }
@@ -94,12 +94,12 @@ void unitTestSortFunc(void (*sortFunc)(int *, const unsigned int), char *sSortNa
     // 0, 0, 0, 0, 0
     {
         uTestNum = 4;
-        uArrSize = 5;
+        uArraySize = 5;
         sortFunc(test4, 5);
-        if(checkIsSame(test4, correct4, uArrSize) == false)
+        if(checkIsSame(test4, correct4, uArraySize) == false)
         {
             printf("%s, %s, %s%u\n"
-                , ERROR_VERIFY_FAILURE, sSortName, FUNC_NAME_UNITTEST, uTestNum);
+                , ERROR_VERIFY_FAILURE, psSortName, FUNC_NAME_UNITTEST, uTestNum);
             return;
         }
     }
@@ -107,12 +107,13 @@ void unitTestSortFunc(void (*sortFunc)(int *, const unsigned int), char *sSortNa
     // unitTest5
     // -14, -14, -14, -14, -14
     {
-        uArrSize = 5;
+        uTestNum = 5;
+        uArraySize = 5;
         sortFunc(test5, 5);
-        if(checkIsSame(test5, correct5, uArrSize) == false)
+        if(checkIsSame(test5, correct5, uArraySize) == false)
         {
             printf("%s, %s, %s%u\n"
-                , ERROR_VERIFY_FAILURE, sSortName, FUNC_NAME_UNITTEST, uTestNum);
+                , ERROR_VERIFY_FAILURE, psSortName, FUNC_NAME_UNITTEST, uTestNum);
             return;
         }
     }
@@ -120,12 +121,13 @@ void unitTestSortFunc(void (*sortFunc)(int *, const unsigned int), char *sSortNa
     // unitTest6
     // 1, 2, 3, 4, 5
     {
-        uArrSize = 5;
+        uTestNum = 6;
+        uArraySize = 5;
         sortFunc(test6, 5);
-        if(checkIsSame(test6, correct6, uArrSize) == false)
+        if(checkIsSame(test6, correct6, uArraySize) == false)
         {
             printf("%s, %s, %s%u\n"
-                , ERROR_VERIFY_FAILURE, sSortName, FUNC_NAME_UNITTEST, uTestNum);
+                , ERROR_VERIFY_FAILURE, psSortName, FUNC_NAME_UNITTEST, uTestNum);
             return;
         }
     }
@@ -134,20 +136,20 @@ void unitTestSortFunc(void (*sortFunc)(int *, const unsigned int), char *sSortNa
 /**
  * @function verifyArray
  * @abstract checking that if the array is non-decreasing
- * @param arr array that needed to be non-decreasing
- * @param uArrSize the array size
+ * @param pnArray array that needed to be non-decreasing
+ * @param uArraySize the array size
  * return bool, verify passed or not
  */
-bool verifyArray(int* arr, const unsigned int uArrSize)
+bool verifyArray(int *pnArray, const unsigned int uArraySize)
 {
     int i = 0;
 
-    for(i = 1; i < uArrSize; ++i)
+    for(i = 1; i < uArraySize; ++i)
     {
-        if(arr[i - 1] > arr[i])
+        if(pnArray[i - 1] > pnArray[i])
         {
-            printf("%s at %d, arr[i - 1]:%d arr[i]:%d\n",
-                ERROR_VERIFY_FAILURE, i, arr[i - 1], arr[i]);
+            printf("%s at %d, pnArray[i - 1]:%d pnArray[i]:%d\n",
+                ERROR_VERIFY_FAILURE, i, pnArray[i - 1], pnArray[i]);
             return false;
         }
     }
@@ -162,42 +164,36 @@ bool verifyArray(int* arr, const unsigned int uArrSize)
  * check that left of the arr[iPartitionIndex] is smaller
  * and the right of arr[iPartitionIndex] is larger
  *
- * @param arr interger pointer pointing to partitioned array
- * @param uArrSize unsigned int that is the array size
+ * @param pnArray interger pointer pointing to partitioned array
+ * @param uArraySize unsigned int that is the array size
  * @param iPartitionIndex the index that is where the partition number is at
  * return bool, true means check passed, false is failed
  */
 // check that if the parition function is correct
 //
 bool checkPartitionIsCorrect(
-    int *arr, const unsigned int uArrSize, int iPartitionIndex)
+    int *pnArray, const unsigned int uArraySize, int iPartitionIndex)
 {
     int i = 0;
     int pivot = 0;
 
-    if(iPartitionIndex >= uArrSize || iPartitionIndex < 0)
+    if(iPartitionIndex >= uArraySize || 0 > iPartitionIndex)
     {
         return false;
     }
 
-    pivot = arr[iPartitionIndex];
+    pivot = pnArray[iPartitionIndex];
 
     // check the left side of the iPartitionIndex is all smaller than pivot
     for(i = 0; i < iPartitionIndex; ++i)
     {
-        if(arr[i] >= pivot)
-        {
-            return false;
-        }
+        if(pnArray[i] >= pivot) return false;
     }
 
     // check the right side of the iParitionIndex is not smaller than pivot
-    for(i = iPartitionIndex + 1; i < uArrSize; ++i)
+    for(i = iPartitionIndex + 1; i < uArraySize; ++i)
     {
-        if(arr[i] < pivot)
-        {
-            return false;
-        }
+        if(pnArray[i] < pivot)  return false;
     }
 
     return true;
@@ -215,7 +211,7 @@ bool checkPartitionIsCorrect(
 void unitTestPartitionFunc(
     int (*partitionFunc)(int *, const unsigned int, unsigned int, unsigned int))
 {
-    unsigned int uArrSize = 0;
+    unsigned int uArraySize = 0;
     unsigned int uTestNum = 0;
     int i = 0, partitionIndex = 0;
     int test1[5] = {3, 1, 4, 2, 5};
@@ -228,9 +224,9 @@ void unitTestPartitionFunc(
     // unitTest1
     {
         uTestNum = 1;
-        uArrSize = 5;
-        partitionIndex = partitionFunc(test1, uArrSize, 0, uArrSize - 1);
-        if(checkPartitionIsCorrect(test1, uArrSize, partitionIndex) == false)
+        uArraySize = 5;
+        partitionIndex = partitionFunc(test1, uArraySize, 0, uArraySize - 1);
+        if(checkPartitionIsCorrect(test1, uArraySize, partitionIndex) == false)
         {
             printf("%s, %s, %s%u\n"
                 , ERROR_UNITTEST_FAILURE, FUNC_NAME_PARTITION, FUNC_NAME_UNITTEST, uTestNum);
@@ -241,9 +237,9 @@ void unitTestPartitionFunc(
     // unitTest2
     {
         uTestNum = 2;
-        uArrSize = 5;
-        partitionIndex = partitionFunc(test2, uArrSize, 0, uArrSize - 1);
-        if(checkPartitionIsCorrect(test2, uArrSize, partitionIndex) == false)
+        uArraySize = 5;
+        partitionIndex = partitionFunc(test2, uArraySize, 0, uArraySize - 1);
+        if(checkPartitionIsCorrect(test2, uArraySize, partitionIndex) == false)
         {
             printf("%s, %s, %s%u\n"
                 , ERROR_UNITTEST_FAILURE, FUNC_NAME_PARTITION, FUNC_NAME_UNITTEST, uTestNum);
@@ -254,9 +250,9 @@ void unitTestPartitionFunc(
     // unitTest3
     {
         uTestNum = 3;
-        uArrSize = 5;
-        partitionIndex = partitionFunc(test3, uArrSize, 0, uArrSize - 1);
-        if(checkPartitionIsCorrect(test3, uArrSize, partitionIndex) == false)
+        uArraySize = 5;
+        partitionIndex = partitionFunc(test3, uArraySize, 0, uArraySize - 1);
+        if(checkPartitionIsCorrect(test3, uArraySize, partitionIndex) == false)
         {
             printf("%s, %s, %s%u\n"
                 , ERROR_UNITTEST_FAILURE, FUNC_NAME_PARTITION, FUNC_NAME_UNITTEST, uTestNum);
@@ -267,9 +263,9 @@ void unitTestPartitionFunc(
     // unitTest4
     {
         uTestNum = 4;
-        uArrSize = 5;
-        partitionIndex = partitionFunc(test4, uArrSize, 0, uArrSize - 1);
-        if(checkPartitionIsCorrect(test4, uArrSize, partitionIndex) == false)
+        uArraySize = 5;
+        partitionIndex = partitionFunc(test4, uArraySize, 0, uArraySize - 1);
+        if(checkPartitionIsCorrect(test4, uArraySize, partitionIndex) == false)
         {
             printf("%s, %s, %s%u\n"
                 , ERROR_UNITTEST_FAILURE, FUNC_NAME_PARTITION, FUNC_NAME_UNITTEST, uTestNum);
@@ -280,9 +276,9 @@ void unitTestPartitionFunc(
     // unitTest5
     {
         uTestNum = 5;
-        uArrSize = 5;
-        partitionIndex = partitionFunc(test5, uArrSize, 0, uArrSize - 1);
-        if(checkPartitionIsCorrect(test5, uArrSize, partitionIndex) == false)
+        uArraySize = 5;
+        partitionIndex = partitionFunc(test5, uArraySize, 0, uArraySize - 1);
+        if(checkPartitionIsCorrect(test5, uArraySize, partitionIndex) == false)
         {
             printf("%s, %s, %s%u\n"
                 , ERROR_UNITTEST_FAILURE, FUNC_NAME_PARTITION, FUNC_NAME_UNITTEST, uTestNum);
@@ -293,9 +289,9 @@ void unitTestPartitionFunc(
     // unitTest6
     {
         uTestNum = 6;
-        uArrSize = 5;
-        partitionIndex = partitionFunc(test6, uArrSize, 0, uArrSize - 1);
-        if(checkPartitionIsCorrect(test6, uArrSize, partitionIndex) == false)
+        uArraySize = 5;
+        partitionIndex = partitionFunc(test6, uArraySize, 0, uArraySize - 1);
+        if(checkPartitionIsCorrect(test6, uArraySize, partitionIndex) == false)
         {
             printf("%s, %s, %s%u\n"
                 , ERROR_UNITTEST_FAILURE, FUNC_NAME_PARTITION, FUNC_NAME_UNITTEST, uTestNum);

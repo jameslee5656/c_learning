@@ -74,6 +74,7 @@ int main(void)
     memcpy(randomArr, arr, sizeof(int) * uArrSize);
 
 #ifdef DEBUG
+    printf("randomArray: ");
     printArray(arr, uArrSize);
 #endif // DEBUG
 

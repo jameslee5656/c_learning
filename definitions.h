@@ -2,7 +2,7 @@
 #define DEFINITIONS_H
 
 // gN should not be larger than INT_MAX(2147483647)
-// #define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define gARR_SIZE               5
 #define gMAX_NUM                10
@@ -13,19 +13,13 @@
 #define gSTACK_SIZE             gARR_SIZE
 #define gLOOP                   1
 
-#define ERROR_ARRAY_INVALID     "[Error] Input array is invalid"
-#define ERROR_INPUT_INVALID     "[Error] Input params is invalid"
+#define ERROR_ARRAY_INVALID         -1
+#define ERROR_ARRAY_SIZE_INVALID    -2
+#define ERROR_INPUT_PARAM_INVLID    -3
 #define ERROR_VERIFY_FAILURE    "[Error] Sorting verify failure"
 #define ERROR_UNITTEST_FAILURE  "[Error] Unit test failure"
 #define ERROR_SORTTING_FAILED   "[Error] Sorting failed"
 #define ERROR_GARR_SIZE_LARGER_THAN_GMAX_NUM    "[Error] gARR_SIZE sets to big, shouldn't larger than gMAX_NUM"
-
-#define ERROR_DETAIL_INVALID_ULEFT      "invalid uLeft"
-#define ERROR_DETAIL_INVALID_URIGHT     "invalid uRight"
-#define ERROR_DETAIL_INVALID_UINDEX     "invalid uIndex"
-#define ERROR_DETAIL_LEFT_RIGHT_LARGER_ARR_SIZE     "left ~ right length is longer than uArrSize"
-#define ERROR_DETAIL_INVALID_ARRAY_SIZE             "invalid array_size"
-#define ERROR_DETAIL_INDEX_EXCEED_STACK_SIZE        "index exceed stack size"
 
 #define SORT_TYPE_QUICKSORT_RECURSIVE       "quickSortRecursive"
 #define SORT_TYPE_QUICKSORT_ITERATIVE       "quickSortIterative"

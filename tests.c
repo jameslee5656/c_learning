@@ -53,7 +53,7 @@ void unitTestSortFunc(void (*pfnSort)(int *, const unsigned int), char *psSortNa
     {
         uTestNum = 1;
         uArraySize = 5;
-        sortFunc(test1, 5);
+        pfnSort(test1, 5);
         if(checkIsSame(test1, correct1, uArraySize) == false)
         {
             printf("%s, %s, %s%u\n"
@@ -67,7 +67,7 @@ void unitTestSortFunc(void (*pfnSort)(int *, const unsigned int), char *psSortNa
     {
         uTestNum = 2;
         uArraySize = 5;
-        sortFunc(test2, 5);
+        pfnSort(test2, 5);
         if(checkIsSame(test2, correct2, uArraySize) == false)
         {
             printf("%s, %s, %s%u\n"
@@ -81,7 +81,7 @@ void unitTestSortFunc(void (*pfnSort)(int *, const unsigned int), char *psSortNa
     {
         uTestNum = 3;
         uArraySize = 5;
-        sortFunc(test3, 5);
+        pfnSort(test3, 5);
         if(checkIsSame(test3, correct3, uArraySize) == false)
         {
             printf("%s, %s, %s%u\n"
@@ -95,7 +95,7 @@ void unitTestSortFunc(void (*pfnSort)(int *, const unsigned int), char *psSortNa
     {
         uTestNum = 4;
         uArraySize = 5;
-        sortFunc(test4, 5);
+        pfnSort(test4, 5);
         if(checkIsSame(test4, correct4, uArraySize) == false)
         {
             printf("%s, %s, %s%u\n"
@@ -109,7 +109,7 @@ void unitTestSortFunc(void (*pfnSort)(int *, const unsigned int), char *psSortNa
     {
         uTestNum = 5;
         uArraySize = 5;
-        sortFunc(test5, 5);
+        pfnSort(test5, 5);
         if(checkIsSame(test5, correct5, uArraySize) == false)
         {
             printf("%s, %s, %s%u\n"
@@ -123,7 +123,7 @@ void unitTestSortFunc(void (*pfnSort)(int *, const unsigned int), char *psSortNa
     {
         uTestNum = 6;
         uArraySize = 5;
-        sortFunc(test6, 5);
+        pfnSort(test6, 5);
         if(checkIsSame(test6, correct6, uArraySize) == false)
         {
             printf("%s, %s, %s%u\n"

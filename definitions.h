@@ -4,13 +4,14 @@
 // gN should not be larger than INT_MAX(2147483647)
 #define DEBUG
 #ifdef DEBUG
-#define gARR_SIZE               5
-#define gMAX_NUM                10
+#define gRANDOM_ARRAY_SIZE      5
 #else
-#define gARR_SIZE               1000 * 1000
-#define gMAX_NUM                1000 * 1000
+#define gRANDOM_ARRAY_SIZE      1000 * 1000
 #endif // DEBUG
-#define gSTACK_SIZE             gARR_SIZE
+
+#define gRANDOM_UPPER_LIMIT     (1 << 30)
+#define gRANDOM_LOWER_LIMIT     -1 * (1 << 30)
+#define gSTACK_SIZE             gRANDOM_ARRAY_SIZE
 #define gLOOP                   1
 
 #define ERROR_ARRAY_INVALID         -1
@@ -32,5 +33,6 @@
 #define FUNC_NAME_MERGE         "merge"
 #define FUNC_NAME_BUILDHEAP     "buildHeap"
 #define FUNC_NAME_UNITTEST      "unitTest"
+#define FUNC_NAME_CREATE_RANDOM_ARRAY   "createRandomArray"
 
 #endif // DEFINITIONS_H

@@ -36,29 +36,27 @@
  *       ^---index
  * return index;
  */
-int partition(int *pnArray, const unsigned int uArraySize,
-    unsigned int uLeft, unsigned int uRight);
+int partition(int *pnArr, const int nArrSize, int nLeft, int nRight);
 
 /**
  * @private function __quickSortRecursive
  * @abstract do the quick sort recursively with an integer array
- * @param pnArray pointing to the integer array
- * @param uArraySize expected size of the array
- * @param uLeft left side of the partition location, included left
- * @param uRight right side of the partition location, included right
+ * @param pnArr pointing to the integer array
+ * @param nArrSize expected size of the array
+ * @param nLeft left side of the partition location, included left
+ * @param nRight right side of the partition location, included right
  * @return
 */
-void __quickSortRecursive(int *pnArray, const unsigned int uArraySize,
-    unsigned int uLeft, unsigned int uRight);
+void __quickSortRecursive(int *pnArr, const int nArrSize, int uLeft, int uRight);
 
 /**
  * @public function quickSortRecursive
  * @abstract recursively quick sort an integer array
- * @param pnArray pointing to the integer array
- * @param uArraySize expected size of the array
+ * @param pnArr pointing to the integer array
+ * @param nArrSize expected size of the array
  * @return
 */
-void quickSortRecursive(int *pnArray, const unsigned int uArraySize);
+void quickSortRecursive(int *pnArr, const int nArrSize);
 
 /**
  * @public function quickSortIterative
@@ -67,10 +65,10 @@ void quickSortRecursive(int *pnArray, const unsigned int uArraySize);
  * example
  * iStack[1] = uArrSize - 1 (uRight)
  * iStack[0] = 0 (uLeft)
- * @param pnArray pointing to the integer array
- * @param uArraySize expected size of the array
+ * @param pnArr pointing to the integer array
+ * @param nArrSize expected size of the array
  * @return
 */
-void quickSortIterative(int *pnArray, const unsigned int uArraySize);
+void quickSortIterative(int *pnArr, const int nArrSize);
 
 #endif // QSORT_H

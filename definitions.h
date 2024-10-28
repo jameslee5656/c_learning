@@ -14,6 +14,8 @@
 #define gSTACK_SIZE             gRANDOM_ARRAY_SIZE
 #define gLOOP                   1
 
+#define SUCCESS_MERGE           0
+
 #define ERROR_ARRAY_INVALID         -1
 #define ERROR_ARRAY_SIZE_INVALID    -2
 #define ERROR_INPUT_PARAM_INVLID    -3

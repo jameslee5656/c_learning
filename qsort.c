@@ -13,8 +13,8 @@
  * (1) intialized i, index, and assigned pivot
  * 3, 1, 4, 2, 5
  * ^---pivot
- * ^---uLeft
- *             ^---uRight
+ * ^---nLeft
+ *             ^---nRight
  * ^---index
  *    ^---i
  *
@@ -35,98 +35,96 @@
  * 3, 1, 2, 4, 5
  *       ^---index
  *
- * (3) swap the uLeft with the index
+ * (3) swap the nLeft with the index
  * 2, 1, 3, 4, 5
  *       ^---index
  * return index, if <= 0 means there's some error;
  */
-int partition(int *pnArray, const unsigned int uArrSize,
-    unsigned int uLeft, unsigned int uRight)
+int partition(int *pnArr, const int nArrSize, int nLeft, int nRight)
 {
     int i = 0;
-    int pivot = 0;
-    unsigned int index = 0;
+    int pivot = 0, index = 0;
 
     // check1, make sure array is valid
-    if(NULL == pnArray) return ERROR_ARRAY_INVALID;
+    if(NULL == pnArr) return ERROR_ARRAY_INVALID;
 
-    // check2 make sure uArrSize is not 0
-    if(0 == uArrSize)   return ERROR_ARRAY_SIZE_INVALID;
+    // check2 make sure nArrSize is not 0
+    if(0 >= nArrSize)   return ERROR_ARRAY_SIZE_INVALID;
 
     // check3 if iLeft, and iRight is valid
-    if(uRight <= uLeft) return ERROR_INPUT_PARAM_INVLID;
+    if(nRight <= nLeft) return ERROR_INPUT_PARAM_INVLID;
 
-    // check4 param uLeft, uRight is valid and within the boundary of uArrSize
-    if(uLeft >= uArrSize || uRight >= uArrSize || uArrSize < uRight - uLeft + 1)
+    // check4 param nLeft, nRight is valid and within the boundary of nArrSize
+    if(nLeft >= nArrSize || nRight >= nArrSize || nArrSize < nRight - nLeft + 1)
     {
         return ERROR_INPUT_PARAM_INVLID;
     }
 
     // (1) intialize i, index, and assigned pivot
-    index = uLeft;
-    pivot = pnArray[index];
+    index = nLeft;
+    pivot = pnArr[index];
 
     // (2) i go through the array, and swap with index if it is smaller than pivot
-    for(i = uLeft + 1; i <= uRight; ++i)
+    for(i = nLeft + 1; i <= nRight; ++i)
     {
-        if(pnArray[i] < pivot)
+        if(pnArr[i] < pivot)
         {
-            swap(&pnArray[i], &pnArray[++index]);
+            swap(&pnArr[i], &pnArr[++index]);
         }
     }
 
-    // (3) swap the pivot (uLeft) with the index
-    swap(&pnArray[index], &pnArray[uLeft]);
+    // (3) swap the pivot (nLeft) with the index
+    swap(&pnArr[index], &pnArr[nLeft]);
     return index;
 }
 
 /**
  * @public function quickSortRecursive
  * @abstract recursively quick sort an integer array
- * @param pnArray pointing to the integer array
- * @param uArraySize expected size of the array
+ * @param pnArr pointing to the integer array
+ * @param nArrSize expected size of the array
  * @return
 */
-void quickSortRecursive(int *pnArray, const unsigned int uArraySize)
+void quickSortRecursive(int *pnArr, const int nArrSize)
 {
-    if(NULL == pnArray) return;
+    if(NULL == pnArr) return;
 
-    if(0 == uArraySize) return;
+    if(0 == nArrSize) return;
 
-    __quickSortRecursive(pnArray, uArraySize, 0, uArraySize - 1);
+    __quickSortRecursive(pnArr, nArrSize, 0, nArrSize - 1);
 }
 
 /**
  * @private function __quickSortRecursive
  * @abstract do the quick sort recursively with an integer array
- * @param pnArray pointing to the integer array
- * @param uArraySize expected size of the array
- * @param uLeft left side of the partition location, included left
- * @param uRight right side of the partition location, included right
+ * @param pnArr pointing to the integer array
+ * @param nArrSize expected size of the array
+ * @param nLeft left side of the partition location, included left
+ * @param nRight right side of the partition location, included right
  * @return
 */
 void __quickSortRecursive(
-    int *pnArray, const unsigned int uArraySize, unsigned int uLeft, unsigned int uRight)
+    int *pnArr, const int nArrSize, int nLeft, int nRight)
 {
     int iPartitionResult = 0;
 
     // check1, make sure array is valid
-    if(NULL == pnArray) return;
+    if(NULL == pnArr) return;
 
-    // check2 make sure uArrSize is not 0
-    if(0 == uArraySize) return;
+    // check2 make sure nArrSize is not 0
+    if(0 == nArrSize) return;
 
     // check3 if iLeft, and iRight is valid
-    if(uRight <= uLeft) return;
+    if(nRight <= nLeft) return;
 
-    // check4 param uLeft, uRight is valid and within the boundary of uArrSize
-    if(uLeft >= uArraySize || uRight >= uArraySize || uArraySize < uRight - uLeft + 1)
+    // check4 param nLeft, nRight is valid and within the boundary of nArrSize
+    if(nLeft >= nArrSize || nRight >= nArrSize || nArrSize < nRight - nLeft + 1)
     {
         return;
     }
 
     // 2. parition and get the middle location
-    iPartitionResult = partition(pnArray, uArraySize, uLeft, uRight);
+    iPartitionResult = partition(pnArr, nArrSize, nLeft, nRight);
     if(0 > iPartitionResult)
     {
         printf("%s ErrorCode:%d", FUNC_NAME_PARTITION, iPartitionResult);
@@ -134,10 +132,10 @@ void __quickSortRecursive(
     }
 
     // 3.1 recursively sort the left part
-    __quickSortRecursive(pnArray, uArraySize, uLeft, iPartitionResult - 1);
+    __quickSortRecursive(pnArr, nArrSize, nLeft, iPartitionResult - 1);
 
     // 3.2 recursively sort the right part
-    __quickSortRecursive(pnArray, uArraySize, iPartitionResult + 1, uRight);
+    __quickSortRecursive(pnArr, nArrSize, iPartitionResult + 1, nRight);
 }
 
 /**
@@ -145,38 +143,38 @@ void __quickSortRecursive(
  * @abstract iteratively quick sort an integer array
  * iStack's size should always either empty or 2's multiple number
  * example
- * iStack[1] = 0 (uLeft)
- * iStack[0] = uArrSize - 1 (uRight)
+ * iStack[1] = 0 (nLeft)
+ * iStack[0] = nArrSize - 1 (nRight)
  *
- * @param pnArray pointing to the integer array
- * @param uArraySize expected size of the array
+ * @param pnArr pointing to the integer array
+ * @param nArrSize expected size of the array
  * @return
 */
-void quickSortIterative(int *pnArray, const unsigned int uArraySize)
+void quickSortIterative(int *pnArr, const int nArrSize)
 {
     int iStackIndex = -1, iPartitionResult = 0;
-    unsigned int uLeft = 0, uRight = 0;
+    int nLeft = 0, nRight = 0;
     static int iStack[gSTACK_SIZE];
 
     // check1, make sure array is valid
-    if(NULL == pnArray)     return;
+    if(NULL == pnArr)     return;
 
-    // check2 make sure uArrSize is not 0
-    if(0 == uArraySize)     return;
+    // check2 make sure nArrSize is not 0
+    if(0 >= nArrSize)     return;
 
-    // (1) Initialize the uLeft, uRight, and put into the stack
-    uLeft = 0;
-    uRight = uArraySize - 1;
-    iStack[++iStackIndex] = uRight;
-    iStack[++iStackIndex] = uLeft;
+    // (1) Initialize the nLeft, nRight, and put into the stack
+    nLeft = 0;
+    nRight = nArrSize - 1;
+    iStack[++iStackIndex] = nRight;
+    iStack[++iStackIndex] = nLeft;
 
-    // (2) getting uLeft and uRight from the stack and keep partition until the stack empty
+    // (2) getting nLeft and nRight from the stack and keep partition until the stack empty
     while(0 < iStackIndex)
     {
-        // (2.1) get uLeft, uRight from top of the stack
-        uLeft = iStack[iStackIndex--];
-        uRight = iStack[iStackIndex--];
-        iPartitionResult = partition(pnArray, uArraySize, uLeft, uRight);
+        // (2.1) get nLeft, nRight from top of the stack
+        nLeft = iStack[iStackIndex--];
+        nRight = iStack[iStackIndex--];
+        iPartitionResult = partition(pnArr, nArrSize, nLeft, nRight);
 
         if(0 > iPartitionResult)
         {
@@ -184,19 +182,19 @@ void quickSortIterative(int *pnArray, const unsigned int uArraySize)
             return;
         }
 
-        // (2.2) putting the uLeft, iPartitionIndex - 1
+        // (2.2) putting the nLeft, iPartitionIndex - 1
             // into the stack if it is valid range
-        if(iPartitionResult > 0 && uLeft < iPartitionResult - 1)
+        if(iPartitionResult > 0 && nLeft < iPartitionResult - 1)
         {
             iStack[++iStackIndex] = iPartitionResult - 1;
-            iStack[++iStackIndex] = uLeft;
+            iStack[++iStackIndex] = nLeft;
         }
 
-        // (2.3) putting the iPartitionIndex + 1, uRight
+        // (2.3) putting the iPartitionIndex + 1, nRight
             // into the stack if it is valid range
-        if(uRight > iPartitionResult + 1)
+        if(nRight > iPartitionResult + 1)
         {
-            iStack[++iStackIndex] = uRight;
+            iStack[++iStackIndex] = nRight;
             iStack[++iStackIndex] = iPartitionResult + 1;
         }
     }

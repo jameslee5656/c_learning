@@ -8,6 +8,7 @@
 #include "helper.h"
 #include "tests.h"
 #include "qsort.h"
+#include "mergeSort.h"
 
 /*
 * specification
@@ -23,48 +24,53 @@
  * @param sSortName char pointer for sorting name
  * @param arr integer array that needed to be sort
  * @param randomArr after the sort we could restore the random from this array
- * @param uArrSize array size for both arr and randomArr
+ * @param nArrSize array size for both arr and randomArr
  * return
  */
-void loopSortAndTime(void (*sortFunc)(int *arr, const unsigned int uArrSize), char *sSortName
-    , int *arr, int *randomArr, const unsigned int uArrSize);
+void loopSortAndTime(void (*sortFunc)(int *pnArr, const int nArrSize), char *sSortName
+    , int *arr, int *randomArr, const int nArrSize);
 
 /**
  * @function createRandomArray
- * @abstract put in random number into a pre-allocated array with uArraySize
- * @param pnArray, the pointer pointing to the integer array
- * @param uArraySize, the array size
+ * @abstract put in random number into a pre-allocated array with nArrSize
+ * @param pnArr, the pointer pointing to the integer array
+ * @param nArrSize, the array size
  * @param nRandomMax, the max number for of the random generated number
  * @param nRandomMin, the min number for of the random generated number
  * return if < 0, something is wrong with generating the randomArray
 */
-int createRandomArray(int *pnArray, const unsigned int uArraySize, int nRandomMax, int nRandomMin);
+int createRandomArray(int *pnArr, const int nArrSize, int nRandomMax, int nRandomMin);
 
 int main(void)
 {
     time_t t;
-    int i = 0, j = 0, temp = 0, uArraySize = 0, iBase = 0;
+    int i = 0, j = 0, temp = 0, nArrSize = 0, iBase = 0;
     int result = 0;
-    int *pnArray = NULL;
+    int *pnArr = NULL;
     int *pnRandomArray = NULL;
 
     time(&t);
     srand(t);
-    uArraySize = gRANDOM_ARRAY_SIZE;
-    pnArray = (int*) malloc(sizeof(int) * uArraySize);
-    pnRandomArray = (int*) malloc(sizeof(int) * uArraySize);
+    nArrSize = gRANDOM_ARRAY_SIZE;
+    pnArr = (int*) malloc(sizeof(int) * nArrSize);
+    pnRandomArray = (int*) malloc(sizeof(int) * nArrSize);
 
-    result = createRandomArray(pnArray, uArraySize, 1000, -1000);
+#ifdef DEBUG
+    result = createRandomArray(pnArr, nArrSize, 1000, -1000);
+#else
+    result = createRandomArray(pnArr, nArrSize,
+        gRANDOM_UPPER_LIMIT, gRANDOM_LOWER_LIMIT);
+#endif // DEBUG
     if(result < 0)
     {
         printf("%s ErrorCode:%d\n", FUNC_NAME_CREATE_RANDOM_ARRAY, result);
         goto ProcessEnd;
     }
-    memcpy(pnRandomArray, pnArray, sizeof(int) * uArraySize);
+    memcpy(pnRandomArray, pnArr, sizeof(int) * nArrSize);
 
 #ifdef DEBUG
     printf("randomArray: ");
-    printArray(pnRandomArray, uArraySize);
+    printArray(pnRandomArray, nArrSize);
 #endif // DEBUG
 
     // QuickSort
@@ -73,18 +79,21 @@ int main(void)
     // QuickSort Recursive
     unitTestSortFunc(&quickSortRecursive, SORT_TYPE_QUICKSORT_RECURSIVE);
     loopSortAndTime(quickSortRecursive, SORT_TYPE_QUICKSORT_RECURSIVE,
-        pnArray, pnRandomArray, uArraySize);
+        pnArr, pnRandomArray, nArrSize);
 
     // QuickSort Iterative
     unitTestSortFunc(&quickSortIterative, SORT_TYPE_QUICKSORT_ITERATIVE);
     loopSortAndTime(quickSortIterative, SORT_TYPE_QUICKSORT_ITERATIVE,
-        pnArray, pnRandomArray, uArraySize);
+        pnArr, pnRandomArray, nArrSize);
+
+    // MergeSort
+    unitTestMergeFunc(&merge);
 
 ProcessEnd:
-    if(NULL != pnArray)
+    if(NULL != pnArr)
     {
-        free(pnArray);
-        pnArray = NULL;
+        free(pnArr);
+        pnArr = NULL;
     }
 
     if(NULL != pnRandomArray)
@@ -104,11 +113,11 @@ ProcessEnd:
  * @param sSortName char pointer for sorting name
  * @param arr integer array that needed to be sort
  * @param randomArr after the sort we could restore the random from this array
- * @param uArrSize array size for both arr and randomArr
+ * @param nArrSize array size for both arr and randomArr
  * return
  */
-void loopSortAndTime(void (*sortFunc)(int *arr, const unsigned int uArrSize), char *sSortName
-    , int *arr, int *randomArr, const unsigned int uArrSize)
+void loopSortAndTime(void (*sortFunc)(int *arr, const int nArrSize), char *sSortName
+    , int *arr, int *randomArr, const int nArrSize)
 {
     int i = 0, sum = 0;
     clock_t begin, end;
@@ -116,13 +125,13 @@ void loopSortAndTime(void (*sortFunc)(int *arr, const unsigned int uArrSize), ch
     printf("starting %s \n", sSortName);
     for(i = 0; i < gLOOP; ++i)
     {
-        memcpy(arr, randomArr, sizeof(int) * uArrSize);
+        memcpy(arr, randomArr, sizeof(int) * nArrSize);
         begin = clock();
-        sortFunc(arr, uArrSize);
+        sortFunc(arr, nArrSize);
         end = clock();
         sum += (end - begin);
 
-        if(verifyArray(arr, uArrSize) == false)
+        if(verifyArray(arr, nArrSize) == false)
         {
             printf("%s %s\n", ERROR_VERIFY_FAILURE, sSortName);
         }
@@ -133,21 +142,21 @@ void loopSortAndTime(void (*sortFunc)(int *arr, const unsigned int uArrSize), ch
 
 /**
  * @function createRandomArray
- * @abstract put in random number into a pre-allocated array with uArraySize
- * @param pnArray, the pointer pointing to the integer array
- * @param uArraySize, the array size
+ * @abstract put in random number into a pre-allocated array with nArrSize
+ * @param pnArr, the pointer pointing to the integer array
+ * @param nArrSize, the array size
  * @param nRandomMax, the max number for of the random generated number
  * @param nRandomMin, the min number for of the random generated number
  * return if < 0, something is wrong with generating the randomArray
 */
-int createRandomArray(int *pnArray, const unsigned int uArraySize, int nRandomMax, int nRandomMin)
+int createRandomArray(int *pnArr, const int nArrSize, int nRandomMax, int nRandomMin)
 {
     time_t t = time(NULL);
     int nInterval = 0, i = 0;
 
     // checkes for each param is valid
-    if(NULL == pnArray) return ERROR_ARRAY_INVALID;
-    if(0 == uArraySize) return ERROR_ARRAY_SIZE_INVALID;
+    if(NULL == pnArr) return ERROR_ARRAY_INVALID;
+    if(0 == nArrSize) return ERROR_ARRAY_SIZE_INVALID;
     if(nRandomMax <= nRandomMin) return ERROR_INPUT_PARAM_INVLID;
     if(nRandomMax > gRANDOM_UPPER_LIMIT) return ERROR_INPUT_PARAM_INVLID;
     if(nRandomMin < gRANDOM_LOWER_LIMIT) return ERROR_INPUT_PARAM_INVLID;
@@ -159,10 +168,9 @@ int createRandomArray(int *pnArray, const unsigned int uArraySize, int nRandomMa
     // Step1: r = rand() % interval -> interval = RANGE_MAX - RANGE_MIN (+1), if +1 includes max
     // Step2: r += RANGE_MIN
     nInterval = nRandomMax - nRandomMin + 1;
-    printf("%d\n", nInterval);
-    for(i = 0; i < uArraySize; ++i)
+    for(i = 0; i < nArrSize; ++i)
     {
-        pnArray[i] = rand() % nInterval + nRandomMin;
+        pnArr[i] = rand() % nInterval + nRandomMin;
     }
 
     return 0;

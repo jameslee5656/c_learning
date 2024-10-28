@@ -5,6 +5,7 @@ add_library(sortLib
     helper.c
     tests.c
     qsort.c
+    mergeSort.c
 )
 
 add_executable(sortTesting sortTesting.c)

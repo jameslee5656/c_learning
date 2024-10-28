@@ -103,3 +103,37 @@ pnArr before:
 2 4 1 3 5
 pnArr after:
 1 2 3 4 5
+
+## mergeSortRecursive
+/**
+ * @Description: private function, merge sort pnArr recursively
+ * @param pnArr, nArrSize:
+ *  if(pnArr == NULL) return ERROR_ARRAY_INVALID
+ *  if(nArrSize <= 0) return ERROR_ARRAY_SIZE_INVALID
+ * @param nLeft, nMiddle:
+ *  recursively seperate the left part, nLeft ~ nMiddle - 1, of the array;
+ * @param nMiddle, nRight:
+ *  recursively sperate the right part, nMiddle ~ nRight, of the array;
+ * @return
+ * @bug FIX:
+ * @NOTE:
+ * First Created on: 2024.10.28 by James.Lee
+ * Last Modified on:
+ * Code Review Record on:
+ * Copyright(c):
+ */
+void __mergeSortRecursive(int *pnArr, int nArrSize, int nLeft, int nMiddle, int nRight);
+
+void mergeSortRecursive(int *pnArr, int nArrSize);
+
+1. divide array into blocks until it's undividable (only one element), then start merging each blocks back
+pnArray: 2 4 1 3 5
+-> calling mergeSortRescursive(pnArray, 5);
+-> calling __mergeSortRecursive(pnArray, 5, 0, 2, 4)
+first level -> (nLeft, nMiddle, nRight) 0, 2, 4
+                second level (0, 1, 1)          (2, 3, 4)
+         third level (0, 0, 0)  (1, 1, 1)   (2, 2, 2)  (3, 4, 4)
+    fourth level                                    (3, 3, 3)  (4, 4, 4)
+
+2, merging it back from the bottom of the level
+

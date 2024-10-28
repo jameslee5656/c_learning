@@ -73,21 +73,25 @@ int main(void)
     printArray(pnRandomArray, nArrSize);
 #endif // DEBUG
 
-    // QuickSort
+    // Parition
     unitTestPartitionFunc(&partition);
 
-    // QuickSort Recursive
+    // QuickSort Recursively
     unitTestSortFunc(&quickSortRecursive, SORT_TYPE_QUICKSORT_RECURSIVE);
     loopSortAndTime(quickSortRecursive, SORT_TYPE_QUICKSORT_RECURSIVE,
         pnArr, pnRandomArray, nArrSize);
 
-    // QuickSort Iterative
+    // QuickSort Iteratively
     unitTestSortFunc(&quickSortIterative, SORT_TYPE_QUICKSORT_ITERATIVE);
     loopSortAndTime(quickSortIterative, SORT_TYPE_QUICKSORT_ITERATIVE,
         pnArr, pnRandomArray, nArrSize);
 
-    // MergeSort
+    // Merge
     unitTestMergeFunc(&merge);
+
+    // MergeSort Recursively
+    unitTestSortFunc(&mergeSortRecursive, SORT_TYPE_MERGESORT_RECURSIVE);
+
 
 ProcessEnd:
     if(NULL != pnArr)

@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <memory.h>
 
 #include "definitions.h"
@@ -30,10 +32,10 @@ int merge(int *pnArr, const int nArrSize, int nLeft, int nMiddle, int nRight)
     int nSmallerVal = 0, nIndex = 0;
     static int anPreAllocatedArr[gRANDOM_ARRAY_SIZE];
 
-    if(NULL == pnArr)   return ERROR_ARRAY_INVALID;
+    if(NULL == pnArr)                   return ERROR_ARRAY_INVALID;
     if(gRANDOM_ARRAY_SIZE < nArrSize)   return ERROR_INPUT_PARAM_INVLID;
-    if(nLeft >= nMiddle)    return ERROR_INPUT_PARAM_INVLID;
-    if(nMiddle > nRight)    return ERROR_INPUT_PARAM_INVLID;
+    if(nLeft >= nMiddle)                return ERROR_INPUT_PARAM_INVLID;
+    if(nMiddle > nRight)                return ERROR_INPUT_PARAM_INVLID;
 
     nLeftIndex = nLeft;
     nRightIndex = nMiddle;
@@ -91,7 +93,7 @@ void mergeSortRecursive(int *pnArr, int nArrSize)
 {
     int nMiddle = 0;
 
-    if(NULL == pnArr)   return;
+    if(NULL == pnArr)                   return;
     if(gRANDOM_ARRAY_SIZE < nArrSize)   return;
 
     nMiddle = nArrSize / 2;
@@ -117,6 +119,26 @@ void mergeSortRecursive(int *pnArr, int nArrSize)
  */
 void __mergeSortRecursive(int *pnArr, int nArrSize, int nLeft, int nMiddle, int nRight)
 {
+    int nNextMiddle = 0;
+    int nMergeResult = 0;
 
+    if(NULL == pnArr)                   return;
+    if(gRANDOM_ARRAY_SIZE < nArrSize)   return;
+    if(nLeft >= nMiddle)                return;
+    if(nMiddle > nRight)                return;
+    if(nMiddle >= nArrSize)             return;
+    if(nRight >= nArrSize)              return;
 
+    // 1. divide array into blocks until it's undividable (only one element), then start merging each blocks back
+    nNextMiddle = nLeft + (nMiddle - nLeft) / 2;
+    __mergeSortRecursive(pnArr, nArrSize, nLeft, nNextMiddle, nMiddle - 1);
+    nNextMiddle = nMiddle + (nRight - nMiddle + 1) / 2;
+    __mergeSortRecursive(pnArr, nArrSize, nMiddle, nNextMiddle, nRight);
+
+    // 2, merging it back from the bottom of the level
+    nMergeResult = merge(pnArr, nArrSize, nLeft, nMiddle, nRight);
+    if(nMergeResult < 0)
+    {
+        printf("%s result:%d\n", ERROR_MERGE_FAILED, nMergeResult);
+    }
 }

@@ -10,3 +10,8 @@ add_library(sortLib
 
 add_executable(sortTesting sortTesting.c)
 target_link_libraries(sortTesting sortLib)
+
+
+set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")

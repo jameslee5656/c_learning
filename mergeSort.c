@@ -3,8 +3,8 @@
 #include <memory.h>
 
 #include "definitions.h"
+#include "helper.h"
 #include "mergeSort.h"
-
 
 /**
  * @Description: merge two presumed sorted range, left ~ middle - 1, middle ~ right
@@ -109,6 +109,13 @@ void mergeSortRecursive(int *pnArr, int nArrSize)
  *  recursively seperate the left part, nLeft ~ nMiddle - 1, of the array;
  * @param nMiddle, nRight:
  *  recursively sperate the right part, nMiddle ~ nRight, of the array;
+ *
+ * Recursive Ending Conditions
+ * if(nLeft >= nMiddle)                return;
+ * if(nMiddle > nRight)                return;
+ * if(nMiddle >= nArrSize)             return;
+ * if(nRight >= nArrSize)              return;
+ *
  * @return
  * @bug FIX:
  * @NOTE:
@@ -122,6 +129,7 @@ void __mergeSortRecursive(int *pnArr, int nArrSize, int nLeft, int nMiddle, int 
     int nNextMiddle = 0;
     int nMergeResult = 0;
 
+    // Recursive Ending Conditions
     if(NULL == pnArr)                   return;
     if(gRANDOM_ARRAY_SIZE < nArrSize)   return;
     if(nLeft >= nMiddle)                return;
@@ -140,5 +148,46 @@ void __mergeSortRecursive(int *pnArr, int nArrSize, int nLeft, int nMiddle, int 
     if(nMergeResult < 0)
     {
         printf("%s result:%d\n", ERROR_MERGE_FAILED, nMergeResult);
+    }
+}
+
+/**
+ * @Description: public function, merge sort pnArr iteratively
+ * @param pnArr, nArrSize:
+ *  if(pnArr == NULL) return ERROR_ARRAY_INVALID
+ *  if(nArrSize <= 0) return ERROR_ARRAY_SIZE_INVALID
+ * @return
+ * @bug FIX:
+ * @NOTE:
+ * First Created on: 2024.10.29 by James.Lee
+ * Last Modified on:
+ * Code Review Record on:
+ * Copyright(c):
+ */
+void mergeSortIterative(int *pnArr, int nArrSize)
+{
+    int nBlock = 0;
+    int nLeft = 0, nMiddle = 0, nRight = 0;
+    int nMergeResult = 0;
+
+    if(NULL == pnArr)                   return;
+    if(gRANDOM_ARRAY_SIZE < nArrSize)   return;
+
+    for(nBlock = 1; nBlock <= nArrSize; nBlock *= 2)
+    {
+        for(nLeft = 0; nLeft < nArrSize; nLeft += nBlock * 2)
+        {
+            nMiddle = nLeft + nBlock;
+            nRight = min(nLeft + nBlock * 2 - 1, nArrSize - 1);
+            if(nMiddle <= nRight)
+            {
+                nMergeResult = merge(pnArr, nArrSize, nLeft, nMiddle, nRight);
+                if(nMergeResult < 0)
+                {
+                    printf("%s, %s, return:%d\n",
+                        ERROR_MERGE_FAILED, SORT_TYPE_MERGESORT_ITERATIVE, nMergeResult);
+                }
+            }
+        }
     }
 }

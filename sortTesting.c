@@ -47,13 +47,13 @@ int main(void)
     int i = 0, j = 0, temp = 0, nArrSize = 0, iBase = 0;
     int result = 0;
     int *pnArr = NULL;
-    int *pnRandomArray = NULL;
+    int *pnRandomArr = NULL;
 
     time(&t);
     srand(t);
     nArrSize = gRANDOM_ARRAY_SIZE;
     pnArr = (int*) malloc(sizeof(int) * nArrSize);
-    pnRandomArray = (int*) malloc(sizeof(int) * nArrSize);
+    pnRandomArr = (int*) malloc(sizeof(int) * nArrSize);
 
 #ifdef DEBUG
     result = createRandomArray(pnArr, nArrSize, 1000, -1000);
@@ -66,11 +66,11 @@ int main(void)
         printf("%s ErrorCode:%d\n", FUNC_NAME_CREATE_RANDOM_ARRAY, result);
         goto ProcessEnd;
     }
-    memcpy(pnRandomArray, pnArr, sizeof(int) * nArrSize);
+    memcpy(pnRandomArr, pnArr, sizeof(int) * nArrSize);
 
 #ifdef DEBUG
     printf("randomArray: ");
-    printArray(pnRandomArray, nArrSize);
+    printArray(pnRandomArr, nArrSize);
 #endif // DEBUG
 
     // Parition
@@ -78,19 +78,26 @@ int main(void)
 
     // QuickSort Recursively
     unitTestSortFunc(&quickSortRecursive, SORT_TYPE_QUICKSORT_RECURSIVE);
-    loopSortAndTime(quickSortRecursive, SORT_TYPE_QUICKSORT_RECURSIVE,
-        pnArr, pnRandomArray, nArrSize);
+    loopSortAndTime(&quickSortRecursive, SORT_TYPE_QUICKSORT_RECURSIVE,
+        pnArr, pnRandomArr, nArrSize);
 
     // QuickSort Iteratively
     unitTestSortFunc(&quickSortIterative, SORT_TYPE_QUICKSORT_ITERATIVE);
     loopSortAndTime(quickSortIterative, SORT_TYPE_QUICKSORT_ITERATIVE,
-        pnArr, pnRandomArray, nArrSize);
+        pnArr, pnRandomArr, nArrSize);
 
     // Merge
     unitTestMergeFunc(&merge);
 
     // MergeSort Recursively
     unitTestSortFunc(&mergeSortRecursive, SORT_TYPE_MERGESORT_RECURSIVE);
+    loopSortAndTime(&mergeSortRecursive, SORT_TYPE_MERGESORT_RECURSIVE,
+        pnArr, pnRandomArr, nArrSize);
+
+    // MergeSort Iteratively
+    unitTestSortFunc(&mergeSortIterative, SORT_TYPE_MERGESORT_ITERATIVE);
+    loopSortAndTime(&mergeSortIterative, SORT_TYPE_MERGESORT_ITERATIVE,
+        pnArr, pnRandomArr, nArrSize);
 
 
 ProcessEnd:
@@ -100,10 +107,10 @@ ProcessEnd:
         pnArr = NULL;
     }
 
-    if(NULL != pnRandomArray)
+    if(NULL != pnRandomArr)
     {
-        free(pnRandomArray);
-        pnRandomArray = NULL;
+        free(pnRandomArr);
+        pnRandomArr = NULL;
     }
 
     return 0;

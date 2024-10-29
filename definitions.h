@@ -2,11 +2,11 @@
 #define DEFINITIONS_H
 
 // gN should not be larger than INT_MAX(2147483647)
-#define DEBUG
+// #define DEBUG
 #ifdef DEBUG
 #define gRANDOM_ARRAY_SIZE      5
 #else
-#define gRANDOM_ARRAY_SIZE      1000 * 1000
+#define gRANDOM_ARRAY_SIZE      1000 * 1000 * 10
 #endif // DEBUG
 
 #define gRANDOM_UPPER_LIMIT     (1 << 30)

@@ -38,21 +38,6 @@ int merge(int *pnArr, const int nArrSize, int left, int middle, int right);
 void mergeSortRecursive(int *pnArr, int nArrSize);
 
 /**
- * @Description: public  function, merge sort pnArr iteratively
- * @param pnArr, nArrSize:
- *  if(pnArr == NULL) return ERROR_ARRAY_INVALID
- *  if(nArrSize <= 0) return ERROR_ARRAY_SIZE_INVALID
- * @return
- * @bug FIX:
- * @NOTE:
- * First Created on: 2024.10.28 by James.Lee
- * Last Modified on:
- * Code Review Record on:
- * Copyright(c):
- */
-void mergeSortIterative(int *pnArr, int nArrSize);
-
-/**
  * @Description: private function, merge sort pnArr recursively
  * @param pnArr, nArrSize:
  *  if(pnArr == NULL) return ERROR_ARRAY_INVALID
@@ -61,6 +46,13 @@ void mergeSortIterative(int *pnArr, int nArrSize);
  *  recursively seperate the left part, nLeft ~ nMiddle - 1, of the array;
  * @param nMiddle, nRight:
  *  recursively sperate the right part, nMiddle ~ nRight, of the array;
+ *
+ * Recursive Ending Conditions
+ * if(nLeft >= nMiddle)                return;
+ * if(nMiddle > nRight)                return;
+ * if(nMiddle >= nArrSize)             return;
+ * if(nRight >= nArrSize)              return;
+ *
  * @return
  * @bug FIX:
  * @NOTE:
@@ -71,4 +63,17 @@ void mergeSortIterative(int *pnArr, int nArrSize);
  */
 void __mergeSortRecursive(int *pnArr, int nArrSize, int nLeft, int nMiddle, int nRight);
 
-
+/**
+ * @Description: public function, merge sort pnArr iteratively
+ * @param pnArr, nArrSize:
+ *  if(pnArr == NULL) return ERROR_ARRAY_INVALID
+ *  if(nArrSize <= 0) return ERROR_ARRAY_SIZE_INVALID
+ * @return
+ * @bug FIX:
+ * @NOTE:
+ * First Created on: 2024.10.29 by James.Lee
+ * Last Modified on:
+ * Code Review Record on:
+ * Copyright(c):
+ */
+void mergeSortIterative(int *pnArr, int nArrSize);

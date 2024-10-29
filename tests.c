@@ -336,8 +336,8 @@ void unitTestMergeFunc(
         pfnMerge(anTest1, nArrSize, 0, 2, 4);
         if(checkIsSame(anTest1, anCorrect1, nArrSize) == false)
         {
-            printf("%s, %s, %s%d\n"
-                , ERROR_UNITTEST_FAILURE, FUNC_NAME_MERGE, FUNC_NAME_UNITTEST, nTestNum);
+            printf("%s, %s, %s%d\n",
+                ERROR_UNITTEST_FAILURE, FUNC_NAME_MERGE, FUNC_NAME_UNITTEST, nTestNum);
             return;
         }
     }
@@ -351,8 +351,8 @@ void unitTestMergeFunc(
         pfnMerge(anTest1, nArrSize, 0, 2, 4);
         if(checkIsSame(anTest1, anCorrect1, nArrSize) == false)
         {
-            printf("%s, %s, %s%d\n"
-                , ERROR_UNITTEST_FAILURE, FUNC_NAME_MERGE, FUNC_NAME_UNITTEST, nTestNum);
+            printf("%s, %s, %s%d\n",
+                ERROR_UNITTEST_FAILURE, FUNC_NAME_MERGE, FUNC_NAME_UNITTEST, nTestNum);
             return;
         }
     }
@@ -367,8 +367,8 @@ void unitTestMergeFunc(
         pfnMerge(anTest3, nArrSize, 0, 2, 4);
         if(checkIsSame(anTest3, anCorrect3, nArrSize) == false)
         {
-            printf("%s, %s, %s%d\n"
-                , ERROR_UNITTEST_FAILURE, FUNC_NAME_MERGE, FUNC_NAME_UNITTEST, nTestNum);
+            printf("%s, %s, %s%d\n",
+                ERROR_UNITTEST_FAILURE, FUNC_NAME_MERGE, FUNC_NAME_UNITTEST, nTestNum);
             return;
         }
     }
@@ -382,8 +382,8 @@ void unitTestMergeFunc(
         pfnMerge(anTest4, nArrSize, 0, 3, 4);
         if(checkIsSame(anTest4, anCorrect4, nArrSize) == false)
         {
-            printf("%s, %s, %s%d\n"
-                , ERROR_UNITTEST_FAILURE, FUNC_NAME_MERGE, FUNC_NAME_UNITTEST, nTestNum);
+            printf("%s, %s, %s%d\n",
+                ERROR_UNITTEST_FAILURE, FUNC_NAME_MERGE, FUNC_NAME_UNITTEST, nTestNum);
             return;
         }
     }
@@ -397,8 +397,8 @@ void unitTestMergeFunc(
         pfnMerge(anTest5, nArrSize, 0, 2, 4);
         if(checkIsSame(anTest5, anCorrect5, nArrSize) == false)
         {
-            printf("%s, %s, %s%d\n"
-                , ERROR_UNITTEST_FAILURE, FUNC_NAME_MERGE, FUNC_NAME_UNITTEST, nTestNum);
+            printf("%s, %s, %s%d\n",
+                ERROR_UNITTEST_FAILURE, FUNC_NAME_MERGE, FUNC_NAME_UNITTEST, nTestNum);
             return;
         }
     }
@@ -413,8 +413,53 @@ void unitTestMergeFunc(
         pfnMerge(anTest6, nArrSize, 0, 2, 4);
         if(checkIsSame(anTest6, anCorrect6, nArrSize) == false)
         {
-            printf("%s, %s, %s%d\n"
-                , ERROR_UNITTEST_FAILURE, FUNC_NAME_MERGE, FUNC_NAME_UNITTEST, nTestNum);
+            printf("%s, %s, %s%d\n",
+                ERROR_UNITTEST_FAILURE, FUNC_NAME_MERGE, FUNC_NAME_UNITTEST, nTestNum);
+            return;
+        }
+    }
+}
+
+/*
+ * unitTestHeapifyFunc, unit test heapify function to make sure that below case is correct heapify
+ 3 1 4 2 5
+ -> heapify(pnArr[2]) -> 3 5 4 2 1
+ -> heapify(pnArr[0]); -> 5 3 4 2 1
+ */
+void unitTestHeapifyFunc(
+    void (*pfnHeapify)(int *pnArr, const int nArrSize, const int nIndex), char *sFuncName)
+{
+    int nArrSize = 0, nTestNum = 0;
+    int test1[5] = {3, 1, 4, 2, 5};
+    int correct1[5] = {3, 5, 4, 2, 1};
+    int correct2[5] = {5, 3, 4, 2, 1};
+
+    // unitTest1
+    // heapify(pnArr[2]) -> 3 5 4 2 1
+    {
+        nTestNum = 1;
+        nArrSize = 5;
+        printArray(test1, nArrSize);
+        pfnHeapify(test1, nArrSize, 1);
+        printArray(test1, nArrSize);
+        if(checkIsSame(test1, correct1, nArrSize) == false)
+        {
+            printf("%s, %s, %s%d\n",
+                ERROR_UNITTEST_FAILURE, sFuncName, FUNC_NAME_UNITTEST, nTestNum);
+            return;
+        }
+    }
+
+    // unitTest2
+    // heapify(pnArr[0]); -> 5 3 4 2 1
+    {
+        nTestNum = 2;
+        nArrSize = 5;
+        pfnHeapify(test1, nArrSize, 0);
+        if(checkIsSame(test1, correct2, nArrSize) == false)
+        {
+            printf("%s, %s, %s%d\n",
+                ERROR_UNITTEST_FAILURE, sFuncName, FUNC_NAME_UNITTEST, nTestNum);
             return;
         }
     }

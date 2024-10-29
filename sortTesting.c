@@ -9,6 +9,7 @@
 #include "tests.h"
 #include "qsort.h"
 #include "mergeSort.h"
+#include "heapSort.h"
 
 /*
 * specification
@@ -99,6 +100,8 @@ int main(void)
     loopSortAndTime(&mergeSortIterative, SORT_TYPE_MERGESORT_ITERATIVE,
         pnArr, pnRandomArr, nArrSize);
 
+    unitTestHeapifyFunc(&heapifyRecursive, FUNC_NAME_HEAPIFY_RECURSIVE);
+    unitTestHeapifyFunc(&heapifyIterative, FUNC_NAME_HEAPIFY_ITERATIVE);
 
 ProcessEnd:
     if(NULL != pnArr)

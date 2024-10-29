@@ -51,4 +51,13 @@ void unitTestPartitionFunc(
 void unitTestMergeFunc(
     int (*pfnMerge)(int *pnArr, const int nArrSize, int nLeft, int nMiddle, int nRight));
 
+/*
+ * unitTestHeapifyFunc, unit test heapify function to make sure that below case is correct heapify
+ 3 1 4 2 5
+ -> heapify(pnArr[2]) -> 3 5 4 2 1
+ -> heapify(pnArr[0]); -> 5 3 4 2 1
+ */
+void unitTestHeapifyFunc(
+    void (*pfnHeapify)(int *pnArr, const int nArrSize, const int nIndex), char *sFuncName);
+
 #endif // TESTS_H

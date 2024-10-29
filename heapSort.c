@@ -4,18 +4,24 @@
 
 #include "heapSort.h"
 #include "definitions.h"
+#include "helper.h"
 
 /**
- * @Description: recurisvely heapify the array
+ * @Description: recurisvely max heapify the array
  * @param pnArr, nArrSize
- *  if(pnArr == NULL) return ERROR_ARRAY_INVALID
- *  if(nArrSize <= 0) return ERROR_ARRAY_SIZE_INVALID
+ *  if(pnArr == NULL) return
+ *  if(nArrSize <= 0) return
  * @param nIndex
  *  heapify the array starting from nIndex
- *  if(nIndex >= nArrSize) return SUCCESS_HEAPIFY
+ *  if(nIndex >= nArrSize) return
  * @return
+ * @NOTE:
+ * First Created on: 2024.10.29 by James.Lee
+ * Last Modified on:
+ * Code Review Record on:
+ * Copyright(c):
  */
-void heapifyRecursive(int *pnArr, const int nArrSize, const int nIndex)
+void maxHeapifyRecursive(int *pnArr, const int nArrSize, const int nIndex)
 {
     int nMaxIndex = 0, nMaxValue = 0;
     int nLeftIndex = 0, nRightIndex = 0;
@@ -43,89 +49,92 @@ void heapifyRecursive(int *pnArr, const int nArrSize, const int nIndex)
         nMaxValue = pnArr[nRightIndex];
     }
 
-    // 2.2 swap with nIndex and nMaxIndex
-    swap(&pnArr[nIndex], &pnArr[nMaxIndex]);
-
-    // 3. Recusively heapify the nIndexs' child
-    heapifyRecursive(pnArr, nArrSize, nLeftIndex);
-    heapifyRecursive(pnArr, nArrSize, nRightIndex);
+    // 2.2 if the nMaxIndex != nIndex, we should swap and heapify that subtree
+    if(nIndex != nMaxIndex)
+    {
+        swap(&pnArr[nIndex], &pnArr[nMaxIndex]);
+        maxHeapifyRecursive(pnArr, nArrSize, nMaxIndex);
+    }
 }
 
 /**
- * @Description: iteratively heapify the array
+ * @Description: iteratively max heapify the array
  * @param pnArr, nArrSize
- *  if(pnArr == NULL) return ERROR_ARRAY_INVALID
- *  if(nArrSize <= 0) return ERROR_ARRAY_SIZE_INVALID
+ *  if(pnArr == NULL) return
+ *  if(nArrSize <= 0) return
  * @param nIndex
  *  heapify the array starting from nIndex
- *  if(nIndex >= nArrSize) return SUCCESS_HEAPIFY
+ *  if(nIndex >= nArrSize) return
  * @return
+ * @NOTE:
+ * First Created on: 2024.10.29 by James.Lee
+ * Last Modified on:
+ * Code Review Record on:
+ * Copyright(c):
  */
-void heapifyIterative(int *pnArr, const int nArrSize, const int nIndex)
+void maxHeapifyIterative(int *pnArr, const int nArrSize, const int nIndex)
 {
-    static int naStack[gSTACK_SIZE];
-    int nStackIndex = -1;
-    int nStackTopVal = 0;
+    // static int naStack[gSTACK_SIZE];
+    // int nStackIndex = -1;
+    int i = 0;
+    int val = 0;
     int nLeftIndex = 0, nRightIndex = 0;
     int nMaxIndex = 0, nMaxValue = 0;
 
     if(NULL == pnArr)       return;
     if(0 >= nArrSize)       return;
-    // 1. Ends the recursive call if nIndex reach the end of the array
     if(nArrSize <= nIndex)  return;
 
-    // 1. put nIndex into naStack
-    naStack[++nStackIndex] = nIndex;
-
-    while(nStackIndex >= 0)
+    // 1. initialize i
+    for(i = nIndex; i < nArrSize;)
     {
-        // 2.1 pop the stack and get the top index from stack
-        nStackTopVal = naStack[nStackIndex--];
+        // 2. find out if the i has the max value compare with it's child
+        nMaxValue = pnArr[i];
+        nMaxIndex = i;
 
-        // 2.2 find out if the topIndex is the max compare with it's child
-            // at the same time, put nLeftIndex into the stack
-        nMaxIndex = nStackTopVal;
-        nMaxValue = pnArr[nStackIndex];
+        nLeftIndex = i * 2 + 1;
+        nRightIndex = i * 2 + 2;
 
-        nLeftIndex = nStackTopVal * 2 + 1;
-        nRightIndex = nStackTopVal * 2 + 2;
-
-        if(nArrSize > nLeftIndex)
+        if(nArrSize > nLeftIndex && pnArr[nLeftIndex] > nMaxValue)
         {
-            if(pnArr[nLeftIndex] > nMaxValue)
-            {
-                nMaxIndex = nLeftIndex;
-                nMaxValue = pnArr[nLeftIndex];
-            }
-
-            naStack[++nStackIndex] = nLeftIndex;
+            nMaxIndex = nLeftIndex;
+            nMaxValue = pnArr[nLeftIndex];
         }
 
-        if(nArrSize > nRightIndex)
+        if(nArrSize > nRightIndex && pnArr[nRightIndex] > nMaxValue)
         {
-            if(pnArr[nRightIndex] > nMaxValue)
-            {
-                nMaxIndex = nRightIndex;
-                nMaxValue = pnArr[nRightIndex];
-            }
-
-            naStack[++nStackIndex] = nRightIndex;
+            nMaxIndex = nRightIndex;
+            nMaxValue = pnArr[nRightIndex];
         }
 
-
-        // 2.3 swap nIndex with nMaxIndex
-        swap(&pnArr[nStackTopVal], &pnArr[nMaxIndex]);
+        // 3.1 if i is not the max value compare with it's child
+            // swap the value and let i be the nMaxIndex
+        if(i != nMaxIndex)
+        {
+            swap(&pnArr[i], &pnArr[nMaxIndex]);
+            i = nMaxIndex;
+        }
+        // 3.2 otherwise end the loop
+        else
+        {
+            break;
+        }
     }
 }
 
 /**
- * @function buildHeap
- * @abstract build a maxHeap stucture from an unsorted array
+ * @Description: build a maxHeap stucture from an unsorted array
+ *  by calling maxHeapify from non-leaves node
  *
  * @param pnArr unsorted array
  * @param nArrSize the size of the array
  * @param bRecursive running recursively or iteratitve
  * @return
+ * @NOTE:
+ * First Created on: 2024.10.29 by James.Lee
+ * Last Modified on:
+ * Code Review Record on:
+ * Copyright(c):
  */
 void buildHeap(int *pnArr, const int nArrSize, bool bRecursive)
 {
@@ -145,5 +154,71 @@ void buildHeap(int *pnArr, const int nArrSize, bool bRecursive)
         {
             maxHeapifyIterative(pnArr, nArrSize, i);
         }
+    }
+}
+
+/**
+ * @Description: heap sort recursively the array with heap structure
+ *  by putting the max element at the end of the array
+ *  taking out the max, and maintaining the heap sturcture
+ *
+ * @param pnArr unsorted array
+ * @param nArrSize the size of the array
+ * @param bRecursive running recursively or iteratitve
+ * @return
+ * @NOTE:
+ * First Created on: 2024.10.29 by James.Lee
+ * Last Modified on:
+ * Code Review Record on:
+ * Copyright(c):
+ */
+void heapSortRecursive(int *pnArr, const int nArrSize)
+{
+    int nHeapSize = 0;
+
+    // 1. build the heap sturcture first
+    buildHeap(pnArr, nArrSize, true);
+
+    for(nHeapSize = nArrSize; nHeapSize > 1; --nHeapSize)
+    {
+        // 2. swap the max value (because of the maxHeap structure), it must be pnArr[0]
+            // with the last of it's element
+        swap(&pnArr[0], &pnArr[nHeapSize - 1]);
+
+        // 3. maxHeapify the first element with less one element
+        maxHeapifyRecursive(pnArr, nHeapSize - 1, 0);
+    }
+}
+
+/**
+ * @Description: heap sort iteratively the array with heap structure
+ *  by putting the max element at the end of the array
+ *  taking out the max, and maintaining the heap sturcture
+ *
+ * @param pnArr unsorted array
+ * @param nArrSize the size of the array
+ * @param bRecursive running recursively or iteratitve
+ * @return
+ * @NOTE:
+ * First Created on: 2024.10.29 by James.Lee
+ * Last Modified on:
+ * Code Review Record on:
+ * Copyright(c):
+ */
+void heapSortIterative(int *pnArr, const int nArrSize)
+{
+    int nHeapSize = 0;
+
+    // 1. build the heap sturcture first
+    buildHeap(pnArr, nArrSize, true);
+
+    for(nHeapSize = nArrSize; nHeapSize > 1; --nHeapSize)
+    {
+        // 2. swap the max value (because of the maxHeap structure), it must be pnArr[0]
+            // with the last of it's element
+        swap(&pnArr[0], &pnArr[nHeapSize - 1]);
+
+        // 3. maxHeapify the first element with less one element
+        maxHeapifyIterative(pnArr, nHeapSize - 1, 0);
     }
 }

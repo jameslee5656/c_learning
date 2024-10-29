@@ -2,7 +2,7 @@
 #define DEFINITIONS_H
 
 // gN should not be larger than INT_MAX(2147483647)
-#define DEBUG
+// #define DEBUG
 #ifdef DEBUG
 #define gRANDOM_ARRAY_SIZE      5
 #else
@@ -12,7 +12,7 @@
 #define gRANDOM_UPPER_LIMIT     (1 << 30)
 #define gRANDOM_LOWER_LIMIT     -1 * (1 << 30)
 #define gSTACK_SIZE             gRANDOM_ARRAY_SIZE
-#define gLOOP                   1
+#define gLOOP                   3
 
 #define SUCCESS_MERGE           0
 #define SUCCESS_HEAPIFY         1

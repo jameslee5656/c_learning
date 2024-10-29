@@ -1,3 +1,6 @@
+#ifndef MERGESORT_H
+#define MERGESORT_H
+
 /**
  * @Description: merge two presumed sorted range, left ~ middle - 1, middle ~ right
  * @param pnArr, nArrSize:
@@ -77,3 +80,5 @@ void __mergeSortRecursive(int *pnArr, int nArrSize, int nLeft, int nMiddle, int 
  * Copyright(c):
  */
 void mergeSortIterative(int *pnArr, int nArrSize);
+
+#endif // MERGESORT_H

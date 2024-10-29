@@ -2,7 +2,7 @@
 #define DEFINITIONS_H
 
 // gN should not be larger than INT_MAX(2147483647)
-// #define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define gRANDOM_ARRAY_SIZE      5
 #else
@@ -15,6 +15,7 @@
 #define gLOOP                   1
 
 #define SUCCESS_MERGE           0
+#define SUCCESS_HEAPIFY         1
 
 #define ERROR_ARRAY_INVALID         -1
 #define ERROR_ARRAY_SIZE_INVALID    -2
@@ -37,5 +38,7 @@
 #define FUNC_NAME_BUILDHEAP     "buildHeap"
 #define FUNC_NAME_UNITTEST      "unitTest"
 #define FUNC_NAME_CREATE_RANDOM_ARRAY   "createRandomArray"
+#define FUNC_NAME_HEAPIFY_RECURSIVE     "heapifyRecursive"
+#define FUNC_NAME_HEAPIFY_ITERATIVE     "heapifyIterative"
 
 #endif // DEFINITIONS_H

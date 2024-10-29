@@ -100,8 +100,18 @@ int main(void)
     loopSortAndTime(&mergeSortIterative, SORT_TYPE_MERGESORT_ITERATIVE,
         pnArr, pnRandomArr, nArrSize);
 
-    unitTestHeapifyFunc(&heapifyRecursive, FUNC_NAME_HEAPIFY_RECURSIVE);
-    unitTestHeapifyFunc(&heapifyIterative, FUNC_NAME_HEAPIFY_ITERATIVE);
+    unitTestHeapifyFunc(&maxHeapifyRecursive, FUNC_NAME_HEAPIFY_RECURSIVE);
+    unitTestHeapifyFunc(&maxHeapifyIterative, FUNC_NAME_HEAPIFY_ITERATIVE);
+
+    // HeapSort Recursively
+    unitTestSortFunc(&heapSortRecursive, SORT_TYPE_HEAPSORT_RECURSIVE);
+    loopSortAndTime(&heapSortRecursive, SORT_TYPE_HEAPSORT_RECURSIVE,
+        pnArr, pnRandomArr, nArrSize);
+
+    // HeapSort Iteratively
+    unitTestSortFunc(&heapSortIterative, SORT_TYPE_HEAPSORT_ITERATIVE);
+    loopSortAndTime(&heapSortIterative, SORT_TYPE_HEAPSORT_ITERATIVE,
+        pnArr, pnRandomArr, nArrSize);
 
 ProcessEnd:
     if(NULL != pnArr)

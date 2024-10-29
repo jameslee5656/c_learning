@@ -439,9 +439,7 @@ void unitTestHeapifyFunc(
     {
         nTestNum = 1;
         nArrSize = 5;
-        printArray(test1, nArrSize);
         pfnHeapify(test1, nArrSize, 1);
-        printArray(test1, nArrSize);
         if(checkIsSame(test1, correct1, nArrSize) == false)
         {
             printf("%s, %s, %s%d\n",

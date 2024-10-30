@@ -6,6 +6,14 @@
 // checkIsSame, check if pnArray1 and pnArray2 is the same
 bool checkIsSame(int *pnArray1, int *pnArray2, const int nArrSize);
 
+/**
+ * @Description: check that if the array is non-decreasing
+ * @param pnArr array that needed to be non-decreasing
+ * @param nArrSize the array size
+ * return bool, verify passed or not
+ */
+bool isNonDecreasing(int* pnArr, const int nArrSize);
+
 /*
 * unitTestSortFunc unit test sort func, making sure that the below test cases passed
 0, 3, 1, 5, 2
@@ -16,15 +24,6 @@ bool checkIsSame(int *pnArray1, int *pnArray2, const int nArrSize);
 1, 2, 3, 4, 5
 */
 void unitTestSortFunc(void (*pfnSort)(int *, const int), char *sSortName);
-
-/**
- * @function verifyArray
- * @abstract checking that if the array is non-decreasing
- * @param pnArr array that needed to be non-decreasing
- * @param nArrSize the array size
- * return bool, verify passed or not
- */
-bool verifyArray(int* pnArr, const int nArrSize);
 
 /*
 * unitTestPartitionFunc, unit test partition function to make sure that the below cases passed

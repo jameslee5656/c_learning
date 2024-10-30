@@ -6,7 +6,7 @@
 
 #include "definitions.h"
 #include "helper.h"
-#include "tests.h"
+#include "unitTests.h"
 #include "qsort.h"
 #include "mergeSort.h"
 #include "heapSort.h"
@@ -155,7 +155,7 @@ void loopSortAndTime(void (*sortFunc)(int *arr, const int nArrSize), char *sSort
         end = clock();
         sum += (end - begin);
 
-        if(verifyArray(arr, nArrSize) == false)
+        if(isNonDecreasing(arr, nArrSize) == false)
         {
             printf("%s %s\n", ERROR_VERIFY_FAILURE, sSortName);
         }

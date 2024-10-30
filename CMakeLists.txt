@@ -3,7 +3,7 @@ project(sort)
 
 add_library(sortLib
     helper.c
-    tests.c
+    unitTests.c
     qsort.c
     mergeSort.c
     heapSort.c

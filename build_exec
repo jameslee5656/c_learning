@@ -1,0 +1,9 @@
+#!/bin/bash
+
+mkdir build_folder
+cmake -B build_folder .
+cmake --build build_folder
+if [[ "$1" = 'exec' ]]
+then
+    build_folder/sortTesting
+fi

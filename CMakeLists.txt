@@ -7,6 +7,7 @@ add_library(sortLib
     qsort.c
     mergeSort.c
     heapSort.c
+    insertionSort.c
 )
 
 add_executable(sortTesting sortTesting.c)

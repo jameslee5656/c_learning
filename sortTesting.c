@@ -10,6 +10,7 @@
 #include "qsort.h"
 #include "mergeSort.h"
 #include "heapSort.h"
+#include "insertionSort.h"
 
 /*
 * specification
@@ -111,6 +112,16 @@ int main(void)
     // HeapSort Iteratively
     unitTestSortFunc(&heapSortIterative, SORT_TYPE_HEAPSORT_ITERATIVE);
     loopSortAndTime(&heapSortIterative, SORT_TYPE_HEAPSORT_ITERATIVE,
+        pnArr, pnRandomArr, nArrSize);
+
+    // InsertionSort Recursively
+    unitTestSortFunc(&insertionSortRecursive, SORT_TYPE_INSERTIONSORT_RECURSIVE);
+    loopSortAndTime(&insertionSortRecursive, SORT_TYPE_INSERTIONSORT_RECURSIVE,
+        pnArr, pnRandomArr, nArrSize);
+
+    // InsertionSort Iteratively
+    unitTestSortFunc(&insertionSortIterative, SORT_TYPE_INSERTIONSORT_ITERATIVE);
+    loopSortAndTime(&insertionSortIterative, SORT_TYPE_INSERTIONSORT_ITERATIVE,
         pnArr, pnRandomArr, nArrSize);
 
 ProcessEnd:

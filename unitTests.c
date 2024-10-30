@@ -3,7 +3,7 @@
 
 #include "definitions.h"
 #include "helper.h"
-#include "tests.h"
+#include "unitTests.h"
 
 // checkIsSame, check if pnArray1 and pnArray2 is the same
 bool checkIsSame(int *pnArray1, int *pnArray2, const int nArrSize)
@@ -14,6 +14,29 @@ bool checkIsSame(int *pnArray1, int *pnArray2, const int nArrSize)
     {
         if(pnArray1[i] != pnArray2[i])
         {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * @Description: check that if the array is non-decreasing
+ * @param pnArr array that needed to be non-decreasing
+ * @param nArrSize the array size
+ * return bool, verify passed or not
+ */
+bool isNonDecreasing(int *pnArr, const int nArrSize)
+{
+    int i = 0;
+
+    for(i = 1; i < nArrSize; ++i)
+    {
+        if(pnArr[i - 1] > pnArr[i])
+        {
+            printf("%s at %d, pnArr[i - 1]:%d pnArr[i]:%d\n",
+                ERROR_VERIFY_FAILURE, i, pnArr[i - 1], pnArr[i]);
             return false;
         }
     }
@@ -131,30 +154,6 @@ void unitTestSortFunc(void (*pfnSort)(int *, const int), char *psSortName)
             return;
         }
     }
-}
-
-/**
- * @function verifyArray
- * @abstract checking that if the array is non-decreasing
- * @param pnArr array that needed to be non-decreasing
- * @param nArrSize the array size
- * return bool, verify passed or not
- */
-bool verifyArray(int *pnArr, const int nArrSize)
-{
-    int i = 0;
-
-    for(i = 1; i < nArrSize; ++i)
-    {
-        if(pnArr[i - 1] > pnArr[i])
-        {
-            printf("%s at %d, pnArr[i - 1]:%d pnArr[i]:%d\n",
-                ERROR_VERIFY_FAILURE, i, pnArr[i - 1], pnArr[i]);
-            return false;
-        }
-    }
-
-    return true;
 }
 
 /**

@@ -86,7 +86,7 @@ void unitTestSortFunc(void (*pfnSort)(int *, const int), char *psSortName)
     }
 
     // unitTest2
-    // 0, 3, 1, 5, 2
+    // int test2[5] = {1000000, 0, 9999, -9999, -1000000};
     {
         nTestNum = 2;
         nArrSize = 5;

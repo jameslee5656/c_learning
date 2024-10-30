@@ -6,13 +6,13 @@
 #ifdef DEBUG
 #define gRANDOM_ARRAY_SIZE      5
 #else
-#define gRANDOM_ARRAY_SIZE      1000 * 1000
+#define gRANDOM_ARRAY_SIZE      1000 * 100
 #endif // DEBUG
 
 #define gRANDOM_UPPER_LIMIT     (1 << 30)
 #define gRANDOM_LOWER_LIMIT     -1 * (1 << 30)
 #define gSTACK_SIZE             gRANDOM_ARRAY_SIZE
-#define gLOOP                   3
+#define gLOOP                   1
 
 #define SUCCESS_MERGE           0
 #define SUCCESS_HEAPIFY         1
@@ -34,6 +34,10 @@
 #define SORT_TYPE_HEAPSORT_ITERATIVE        "heapSortIterative"
 #define SORT_TYPE_INSERTIONSORT_RECURSIVE   "insertionSortRecursive"
 #define SORT_TYPE_INSERTIONSORT_ITERATIVE   "insertionSortItertive"
+#define SORT_TYPE_SELECTIONSORT_RECURSIVE   "selectionSortRecursive"
+#define SORT_TYPE_SELECTIONSORT_ITERATIVE   "selectionSortIterative"
+#define SORT_TYPE_RADIXSORT_RECURSIVE       "radixSortRecursive"
+#define SORT_TYPE_RADIXSORT_ITERATIVE       "radixSortIterative"
 
 #define FUNC_NAME_PARTITION     "partition"
 #define FUNC_NAME_MERGE         "merge"

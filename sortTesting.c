@@ -12,7 +12,7 @@
 #include "heapSort.h"
 #include "insertionSort.h"
 #include "selectionSort.h"
-// #include "radixSort.h"
+#include "radixSort.h"
 
 /*
 * specification
@@ -136,8 +136,15 @@ int main(void)
     loopSortAndTime(&selectionSortIterative, SORT_TYPE_SELECTIONSORT_ITERATIVE,
         pnArr, pnRandomArr, nArrSize);
 
+    // RadixSort Recursively
+    unitTestSortFunc(&radixSortRecursive, SORT_TYPE_RADIXSORT_RECURSIVE);
+    loopSortAndTime(&radixSortRecursive, SORT_TYPE_RADIXSORT_RECURSIVE,
+        pnArr, pnRandomArr, nArrSize);
+
     // RaidSort Iteratively
-    // unitTestSortFunc(&radixSortIterative, SORT_TYPE_RADIXSORT_ITERATIVE);
+    unitTestSortFunc(&radixSortIterative, SORT_TYPE_RADIXSORT_ITERATIVE);
+    loopSortAndTime(&radixSortIterative, SORT_TYPE_RADIXSORT_ITERATIVE,
+        pnArr, pnRandomArr, nArrSize);
 
 ProcessEnd:
     if(NULL != pnArr)

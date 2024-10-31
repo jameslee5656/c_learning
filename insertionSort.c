@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "helper.h"
 #include "insertionSort.h"
 
 /**

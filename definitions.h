@@ -1,16 +1,15 @@
 #ifndef DEFINITIOHS_H
 #define DEFINITIONS_H
 
-// gN should not be larger than INT_MAX(2147483647)
-#define DEBUG
+// #define DEBUG
 #ifdef DEBUG
 #define gRANDOM_ARRAY_SIZE      5
 #else
 #define gRANDOM_ARRAY_SIZE      1000 * 100
 #endif // DEBUG
 
-#define gRANDOM_UPPER_LIMIT     (1 << 30)
-#define gRANDOM_LOWER_LIMIT     -1 * (1 << 30)
+#define gRANDOM_UPPER_LIMIT     (1 << 29)
+#define gRANDOM_LOWER_LIMIT     -1 * (1 << 29)
 #define gSTACK_SIZE             gRANDOM_ARRAY_SIZE
 #define gLOOP                   1
 
@@ -24,7 +23,8 @@
 #define ERROR_UNITTEST_FAILURE      "[Error] Unit test failure"
 #define ERROR_SORTTING_FAILED       "[Error] Sorting failed"
 #define ERROR_MERGE_FAILED          "[Error] Merged failed"
-#define ERROR_GARR_SIZE_LARGER_THAN_GMAX_NUM    "[Error] gARR_SIZE sets to big, shouldn't larger than gMAX_NUM"
+#define ERROR_MAX_VAL_OVER_LIMIT    "[Error] Max value is over gRANDOM_UPPER_LIMIT"
+#define ERROR_GARR_SIZE_LARGER_THAN_GMAX_NUM    "[Error] gARR_SIZE sets to big, shouldn't larger than gRANDOM_ARRAY_SIZE"
 
 #define SORT_TYPE_QUICKSORT_RECURSIVE       "quickSortRecursive"
 #define SORT_TYPE_QUICKSORT_ITERATIVE       "quickSortIterative"

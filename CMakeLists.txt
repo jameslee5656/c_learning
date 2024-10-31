@@ -9,7 +9,7 @@ add_library(sortLib
     heapSort.c
     insertionSort.c
     selectionSort.c
-    # radixSort.c
+    radixSort.c
 )
 
 add_executable(sortTesting sortTesting.c)

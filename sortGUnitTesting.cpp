@@ -4,9 +4,38 @@
 #include "helper.c"
 #include "qsort.c"
 
-class SortUnitTestSuite : public testing::Test
+// Test Suite Example
+// ! this is a "Suite"
+// * isNonDecreasingTest is a "Test"
+TEST(SortTestSuite, isNonDecreasingTest)
+{
+    int i = 0;
+    std::vector<int> anTestcase = {0, 1, 3, 3, 5};
+
+    for(i = 1; i < 5; ++i)
+    {
+        ASSERT_LE(anTestcase[i - 1], anTestcase[i]);
+    }
+}
+
+// *  isNonIncresingTest is a "Test" under SortTestSuite
+TEST(SortTestSuite, isNonIncresingTest)
+{
+    int i = 0;
+    std::vector<int> anTestcase = {5, 4, 3, 3, 1};
+
+    for(i = 1; i < 5; ++i)
+    {
+        ASSERT_GE(anTestcase[i - 1], anTestcase[i]);
+    }
+}
+
+// ! this is a test "fixture"
+class SortTestFixture : public testing::Test
 {
 public:
+
+    // Every time setyo a TEST_F, Setup() would be called
     void SetUp()
     {
         int i = 0;
@@ -20,6 +49,8 @@ public:
             ASSERT_EQ(anTest[i].size(), nTestArrSize);
         }
     }
+
+    // Every time destoyed a TEST_F, TearDown() would be called
     // void TearDown() {}
 
     void unitTest();
@@ -37,12 +68,16 @@ public:
         {1, 2, 3, 4, 5},
     };
 
+    // 尽管每次创建创建是新的对象，但是 C++ 的类支持 静态成员变量和静态成员函数，
+    // 静态成员变量是类的所有对象共享的，静态成员函数则是可以操作静态成员变量的。利用这一点，
+    // 便可以在不同的 Test 之间进行数据的共享了。
+    static const double pi = 3.14;
+
 private:
 
     // Unit Test Data variable
     int nUnitTestNum;
     int nTestArrSize;
-
 
     // Unit Test correct data
     std::vector<std::vector<int>> anCorrect = {
@@ -55,7 +90,7 @@ private:
     };
 };
 
-void SortUnitTestSuite::unitTest()
+void SortTestFixture::unitTest()
 {
     int i = 0, j = 0;
 
@@ -69,13 +104,25 @@ void SortUnitTestSuite::unitTest()
     }
 }
 
-TEST_F(SortUnitTestSuite, quickSortIterativeTest)
+TEST_F(SortTestFixture, quickSortIterativeTest)
 {
     int i = 0, j = 0;
 
     for(i = 0; i < getUnitTestNum(); ++i)
     {
         quickSortIterative(anTest[i].data(), getTestArrSize());
+    }
+
+    unitTest();
+}
+
+TEST_F(SortTestFixture, quickSortRecursiveTest)
+{
+    int i = 0, j = 0;
+
+    for(i = 0; i < getUnitTestNum(); ++i)
+    {
+        quickSortRecursive(anTest[i].data(), getTestArrSize());
     }
 
     unitTest();

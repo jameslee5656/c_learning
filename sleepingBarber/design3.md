@@ -27,10 +27,14 @@ pthread_mutex_t gSofaMutex = PTHREAD_MUTEX_INITIALIZER;
         2.1.6 unlock gSofaMutex
 
     2.2 input 動作 2
+
+    lock gSofaMutex
+    清空 eventQueue, gnFreeSeat = 10
+    unlock gSofaMutex
+
     for loop 3 次 (3 個 barber threads)
 
         2.2.1 lock gSofaMutex
-            清空 eventQueue, gnFreeSeat = 10
 
         2.2.2 建立新的 eventMessage_t, newMsg
             初始化 newMsg 的參數

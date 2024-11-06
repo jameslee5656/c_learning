@@ -49,9 +49,7 @@ pthread_mutex_t gSofaMutex = PTHREAD_MUTEX_INITIALIZER;
 ## Barber Thread
 1. 建立一個 IPC queue, eventQueue
 
-// 這是 block operation
-2. while recv eventQueue, 並取出一個 newMsg, pop queue
-
+2. while loop, msgrcv eventQueue, queue
     2.1 if newMsg.eventType_t == customer
 
         2.1.1 lock gSofaMutex

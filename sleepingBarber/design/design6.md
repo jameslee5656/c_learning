@@ -50,6 +50,9 @@ pthread_mutex_t gSofaMutex = PTHREAD_MUTEX_INITIALIZER;
         // 這樣 Barber thread 才可以順利 recv
         2.2.3.2 建立的 newMsg 放入 eventQueue 當中
 
+        2.2.4 timeout pthread join, with some timeout
+            otherwise kill the process
+
 ## Barber Thread
 1. 建立一個 IPC queue, eventQueue
     int nRecvResult = 0;

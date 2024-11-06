@@ -71,7 +71,7 @@ public:
     // 尽管每次创建创建是新的对象，但是 C++ 的类支持 静态成员变量和静态成员函数，
     // 静态成员变量是类的所有对象共享的，静态成员函数则是可以操作静态成员变量的。利用这一点，
     // 便可以在不同的 Test 之间进行数据的共享了。
-    static const double pi = 3.14;
+    // static const double pi = 3.14;
 
 private:
 
@@ -106,7 +106,7 @@ void SortTestFixture::unitTest()
 
 TEST_F(SortTestFixture, quickSortIterativeTest)
 {
-    int i = 0, j = 0;
+    int i = 0;
 
     for(i = 0; i < getUnitTestNum(); ++i)
     {
@@ -118,7 +118,7 @@ TEST_F(SortTestFixture, quickSortIterativeTest)
 
 TEST_F(SortTestFixture, quickSortRecursiveTest)
 {
-    int i = 0, j = 0;
+    int i = 0;
 
     for(i = 0; i < getUnitTestNum(); ++i)
     {

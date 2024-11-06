@@ -31,3 +31,6 @@ target_link_libraries(sortGUnitTesting
     ${GTEST_BOTH_LIBRARIES}
 )
 gtest_discover_tests(sortGUnitTesting)
+
+# sleepingBarber
+add_subdirectory(sleepingBarber)

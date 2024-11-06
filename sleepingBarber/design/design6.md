@@ -83,6 +83,8 @@ pthread_mutex_t gSofaMutex = PTHREAD_MUTEX_INITIALIZER;
         2.4.1 end thread
 
 [Requirements]
+* 3 Barbar thread -> no bust waiting
+* Gracefully shutdown
 * nNeedSeconds > 0 && nNeedSeconds <= 60
 
 enum eventType_t

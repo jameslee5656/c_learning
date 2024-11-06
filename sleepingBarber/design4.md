@@ -15,7 +15,7 @@ CRITICAL_SECTION    g_cs;
     2.1 CUSTOMER_EVENT
         ++nCustomerId;
 
-        2.1.1 如果 gnSofaUsedSize >= gSOFA_SIZE (沙發沒有空位)
+        2.1.1 如果 gnSofaUsedSize >= gSOFA_SIZE (沙發沒有空位) (用 g_cs 保護起來)
             請客人直接離開
 
         2.1.2 如果 sofa 還有位置,

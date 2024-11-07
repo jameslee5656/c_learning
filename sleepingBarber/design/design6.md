@@ -6,7 +6,8 @@ pthread_mutex_t gSofaMutex = PTHREAD_MUTEX_INITIALIZER;
 
 ## Main Thread
 1. 建立三個 Barber threads,
-   1 個 IPC Queue, eventQueue, 並且清空
+   1 個 IPC Queue, eventQueue, 並且清空,
+   初始化 gSofaMutex
 
 2. while 等待 input
 

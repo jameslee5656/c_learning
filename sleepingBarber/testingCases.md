@@ -28,7 +28,6 @@ Input:
 1
 10
 1
-10
 Output:
 [Error] 沙發滿了! 客人請離開
 
@@ -36,6 +35,6 @@ Output:
 Input: 2
 
 Output:
-recieved ending thread
-recieved ending thread
-recieved ending thread
+理髮師[3]離開
+理髮師[1]離開
+理髮師[2]離開

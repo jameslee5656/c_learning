@@ -28,9 +28,9 @@ pthread_mutex_t gSofaMutex = PTHREAD_MUTEX_INITIALIZER;
 
         2.1.5 unlock gSofaMutex
 
-        // msgsnd eventQueue 要放在 lock 的外面
-        // 這樣 Barber thread 才可以順利 recv
         2.1.6 把建立的 newMsg 放入 eventQueue 當中
+            // msgsnd eventQueue 要放在 lock 的外面
+            // 這樣 Barber thread 才可以順利 recv
 
     2.2 input 動作 2
 
@@ -47,9 +47,9 @@ pthread_mutex_t gSofaMutex = PTHREAD_MUTEX_INITIALIZER;
                     eventType = ending
                     nNeedSecond = 0
 
-        // msgsnd eventQueue 要放在 lock 的外面
-        // 這樣 Barber thread 才可以順利 recv
         2.2.3.2 建立的 newMsg 放入 eventQueue 當中
+            // msgsnd eventQueue 要放在 lock 的外面
+            // 這樣 Barber thread 才可以順利 recv
 
         2.2.4 timeout pthread join, with some timeout
             otherwise kill the process

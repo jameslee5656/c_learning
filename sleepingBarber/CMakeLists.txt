@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.13)
 
+add_executable(sleepingBarber
+    sleepingBarber.c
+    barberWorkingThread.c
+)
+
 find_library(REQUIRED pthread)
-add_executable(sleepingBarber sleepingBarber.c barberWorkingThread.c)
 target_link_libraries(sleepingBarber
     pthread
 )

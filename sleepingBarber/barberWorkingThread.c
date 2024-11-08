@@ -5,13 +5,13 @@
 #include <sys/ipc.h>
 #include <sys/msg.h>
 
-#include "definitions.h"
+#include "sleepingBarberDefinitions.h"
 #include "barberWorkingThread.h"
 
 int gnFreeSeat = gnTOTAL_SEATS;
 pthread_mutex_t gSofaMutex = PTHREAD_MUTEX_INITIALIZER;
 
-// ## Barber Thread
+// Barber Thread
 void *barberWorkingThread(void *arg)
 {
     key_t eventQueueKey = 0;
@@ -25,11 +25,11 @@ void *barberWorkingThread(void *arg)
         // int nRecvResult = 0;
     ////////////////////////////////////////////
     nBarberId = *((int *) arg);
-    eventQueueKey = ftok(gsEVENT_QUEUE_NAME, 65);
+    eventQueueKey = ftok(gsEVENT_QUEUE_NAME, gnBARBER_PROJECT_NUM);
     if((nEventQueueId = msgget(eventQueueKey, 0666 | IPC_EXCL)) < 0)
     {
         printf(ERROR_EVENT_QUEUE_CREATION_FAILURE);
-        return NULL;
+        goto threadend;
     }
 
     while(1)
@@ -38,7 +38,7 @@ void *barberWorkingThread(void *arg)
             msgrcv(nEventQueueId, &newMsg, gnEVENT_MSG_BUFSIZE, gnEVENT_MTYPE, IPC_NOWAIT);
         if(nEventQueueRcvResult < 0 && errno == ENOMSG)
         {
-            printf("理髮師[%d]正在睡覺\n", nBarberId);
+            printf(INFO_BARBER_IS_SLEEPING, nBarberId);
             nEventQueueRcvResult =
                 msgrcv(nEventQueueId, &newMsg, gnEVENT_MSG_BUFSIZE, gnEVENT_MTYPE, 0);
         }
@@ -64,16 +64,15 @@ void *barberWorkingThread(void *arg)
             // 2.2.2 如果是其他種狀況, print 結果,
                 // unlock gSofaMutex, end thread
             ////////////////////////////////////////////
-            printf("%s", ERROR_EVENT_QUEUE_RECV_FAILURE);
-            printf("%d\n", errno);
-
-            break;
+            printf(ERROR_EVENT_QUEUE_RECV_FAILURE);
+            goto threadend;
         }
 
         ////////////////////////////////////////////
-        // 2.3 if newMsg.eventType_t == customer
+        // 2.3 if newMsg.eventType_t == CUSTOMER
+            // mtext[0] is eventType_t
         ////////////////////////////////////////////
-        if(newMsg.mtext[0] == customer)
+        if(newMsg.mtext[0] == CUSTOMER)
         {
             ////////////////////////////////////////////
             // 2.3.1 gnFreeSeat += 1
@@ -85,7 +84,7 @@ void *barberWorkingThread(void *arg)
             ////////////////////////////////////////////
             pthread_mutex_unlock(&gSofaMutex);
 
-            printf("理髮師[%d] 正在理髮 需要%d秒\n", nBarberId, newMsg.mtext[1]);
+            printf(INFO_BARBER_IS_CUTTING, nBarberId, newMsg.mtext[1]);
 
             ////////////////////////////////////////////
             // 2.3.3 wait for newMsg.nNeedSecond
@@ -93,7 +92,7 @@ void *barberWorkingThread(void *arg)
             sleep((int) newMsg.mtext[1]);
         }
         // 2.4 else if newMsg.eventType_t == ending
-        else if(newMsg.mtext[0] == ending)
+        else if(newMsg.mtext[0] == ENDING)
         {
             ////////////////////////////////////////////
             // 2.4.1 unlock gSofaMutex
@@ -103,10 +102,11 @@ void *barberWorkingThread(void *arg)
             ////////////////////////////////////////////
             // 2.4.1 end thread
             ////////////////////////////////////////////
-            break;
+            goto threadend;
         }
     }
 
-    printf("理髮師[%d]離開\n", nBarberId);
+threadend:
+    printf(INFO_BARBER_IS_LEAVING, nBarberId);
     return NULL;
 }

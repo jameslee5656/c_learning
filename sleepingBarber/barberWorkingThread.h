@@ -1,17 +1,16 @@
 #ifndef BARBER_WORKING_THREAD
 #define BARBER_WORKING_THREAD
-
 #include <pthread.h>
 
-#include "definitions.h"
+#include "sleepingBarberDefinitions.h"
 
 extern int gnFreeSeat;
 extern pthread_mutex_t gSofaMutex;
 
 enum eventType_t
 {
-    customer,
-    ending,
+    CUSTOMER,
+    ENDING,
 };
 
 struct eventMessage_t

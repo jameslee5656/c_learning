@@ -58,7 +58,7 @@ void *barberWorkingThread(void *arg)
             // 2.2.1 檢查 msgrcv 的資訊是否是剛好"正在"清理 eventQueue,
                 // 如果是繼續等待下一訊息
             ////////////////////////////////////////////
-            if(errno == E2BIG && gnFreeSeat >= 10)  continue;
+            if(errno == E2BIG && gnFreeSeat >= gnTOTAL_SEATS)  continue;
 
             ////////////////////////////////////////////
             // 2.2.2 如果是其他種狀況, print 結果,

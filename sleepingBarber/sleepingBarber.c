@@ -1,5 +1,9 @@
+// to use pthread_timedjoin_np
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <errno.h>
 #include <unistd.h>
 #include <string.h>
@@ -7,16 +11,16 @@
 #include <sys/ipc.h>
 #include <sys/msg.h>
 
-#include "definitions.h"
+#include "sleepingBarberDefinitions.h"
 #include "barberWorkingThread.h"
 
-// ## Main Thread
+// Main Thread
 int main()
 {
-    int i = 0;
+    int i = 0, j = 0;
     int nAction = 0, nSeconds = 0;
     int nCustomerId = 0;
-    char acInput[20];
+    char acInput[gnINPUT_BUFFER];
     size_t uInputSize = 0;
 
     int anBarberId[gnBARBER_NUM];
@@ -31,12 +35,11 @@ int main()
         // 1 個 IPC Queue, eventQueue, 並且清空,
         // 初始化 gSofaMutex
     ////////////////////////////////////////////
-
-    eventQueueKey = ftok(gsEVENT_QUEUE_NAME, 65);
+    eventQueueKey = ftok(gsEVENT_QUEUE_NAME, gnBARBER_PROJECT_NUM);
     if((nEventQueueId = msgget(eventQueueKey, 0666 | IPC_CREAT)) < 0)
     {
         printf(ERROR_EVENT_QUEUE_CREATION_FAILURE);
-        goto errexit;
+        goto errExit;
     }
 
     for(i = 0; i < gnBARBER_NUM; ++i)
@@ -46,7 +49,13 @@ int main()
             &aBarberThread[i], NULL, barberWorkingThread, (void*)(&anBarberId[i])) != 0)
         {
             printf(ERROR_PTHREAD_CREATION_FAILURE);
-            goto errexit;
+
+            // Try to exit the thread that has already been created
+            for(j = 0; j < i; ++j)
+            {
+                pthread_kill(aBarberThread[j], 9);
+            }
+            goto threadCreateErrExit;
         }
     }
 
@@ -57,14 +66,14 @@ int main()
     ////////////////////////////////////////////
     while(1)
     {
-        printf("*** 開店中 ***\n");
-        printf("輸入 1, 動作1: 顧客上門\n");
-        printf("輸入 2, 動作2: 關店\n");
+        printf(INFO_BARBERSHOP_OPEN);
+        printf(INFO_BARBER_ACTION_1);
+        printf(INFO_BARBER_ACTION_2);
         scanf("%s", acInput);
         uInputSize = strlen(acInput);
         if(uInputSize > 1 || uInputSize <= 0 || (acInput[0] != '1' && acInput[0] != '2'))
         {
-            printf("錯誤輸入, 請輸入 '1' 或 '2'\n");
+            printf(INFO_WRONG_INPUT_CHOOSE_ACTION);
             while(getchar() != '\n');
             continue;
         }
@@ -76,14 +85,14 @@ int main()
         switch(nAction)
         {
         case 1:
-            printf("輸入一數字, 1 ~ 60, 是這位客人需要理髮的時間\n");
+            printf(INFO_INPUT_CUSTOMER_NEEDED_TIME);
             scanf("%s", acInput);
             uInputSize = strlen(acInput);
 
             // checking the size and the first digits of the number
             if(uInputSize > 2 || acInput[0] < '0' || acInput[0] > '9')
             {
-                printf("錯誤輸入, 請輸入 1 ~ 60 的數字\n");
+                printf(INFO_WRONG_INPUT_CHOOSE_TIME);
                 while(getchar() != '\n');
                 continue;
             }
@@ -94,7 +103,7 @@ int main()
             {
                 if(acInput[1] < '0' || acInput[1] > '9')
                 {
-                    printf("錯誤輸入, 請輸入 1 ~ 60 的數字\n");
+                    printf(INFO_WRONG_INPUT_CHOOSE_TIME);
                     while(getchar() != '\n');
                     continue;
                 }
@@ -103,14 +112,14 @@ int main()
 
                 if(nSeconds < 1 || nSeconds > 60)
                 {
-                    printf("錯誤輸入, 請輸入 1 ~ 60 的數字\n");
+                    printf(INFO_WRONG_INPUT_CHOOSE_TIME);
                     while(getchar() != '\n');
                     continue;
                 }
             }
 
             ++nCustomerId;
-            printf("客人[%d]上門\n", nCustomerId);
+            printf(INFO_CUSTOMER_ENTER, nCustomerId);
             ////////////////////////////////////////////
             // 2.1.1 lock gSofaMutex
             ////////////////////////////////////////////
@@ -124,7 +133,7 @@ int main()
             if(gnFreeSeat <= 0)
             {
                 pthread_mutex_unlock(&gSofaMutex);
-                printf("沙發滿了，客人[%d]直接離開\n", nCustomerId);
+                printf(INFO_SOFA_IS_FULL, nCustomerId);
                 continue;
             }
 
@@ -135,7 +144,7 @@ int main()
                     // nNeedSecond = 所需秒數
             ////////////////////////////////////////////
             newMsg.mtype = gnEVENT_MTYPE;
-            newMsg.mtext[0] = customer;
+            newMsg.mtext[0] = CUSTOMER;
             newMsg.mtext[1] = nSeconds;
 
             ////////////////////////////////////////////
@@ -164,6 +173,7 @@ int main()
         ////////////////////////////////////////////
         case 2:
             pthread_mutex_lock(&gSofaMutex);
+
             ////////////////////////////////////////////
             // 2.2.1 lock gSofaMutex
                 // gnFreeSeat = gnTOTAL_SEATS
@@ -193,7 +203,7 @@ int main()
                         // nNeedSecond = 0
                 ////////////////////////////////////////////
                 newMsg.mtype = gnEVENT_MTYPE;
-                newMsg.mtext[0] = ending;
+                newMsg.mtext[0] = ENDING;
                 newMsg.mtext[1] = 0;
 
                 ////////////////////////////////////////////
@@ -207,33 +217,34 @@ int main()
                     printf(ERROR_EVENT_QUEUE_SEND_FAILURE);
                 }
             }
-            goto errexit;
+            goto errExit;
 
         default:
-            printf("錯誤輸入, 請輸入 '1' 或 '2'\n");
+            printf(INFO_WRONG_INPUT_CHOOSE_ACTION);
             while(getchar() != '\n');
             break;
         } // end of switch(nAction)
     } // end of while(1)
 
-errexit:
+errExit:
     ////////////////////////////////////////////
     // 2.2.4 timeout pthread join, with some timeout
         // otherwise kill the process
     ////////////////////////////////////////////
-    threadJoinTimeout.tv_sec += 10;
-    threadJoinTimeout.tv_nsec = 0;
+    clock_gettime(CLOCK_REALTIME, &threadJoinTimeout);
+    threadJoinTimeout.tv_sec += gnMAX_WAIT_THREAD_JOIN_SEC;
     for(i = 0; i < gnBARBER_NUM; ++i)
     {
-        pthread_join(aBarberThread[i], NULL);
-        // pthread_timedjoin_np(&aBarberThread[i], NULL, &threadJoinTimeout);
+        // pthread_join(aBarberThread[i], NULL);
+        pthread_timedjoin_np(aBarberThread[i], NULL, &threadJoinTimeout);
     }
 
-    printf("關店\n");
-
+threadCreateErrExit:
     pthread_mutex_destroy(&gSofaMutex);
 
     msgctl(nEventQueueId, IPC_RMID, NULL);
+
+    printf(INFO_SHOP_CLOSED);
 
     return 0;
 }

@@ -135,8 +135,8 @@ int main()
                     // nNeedSecond = 所需秒數
             ////////////////////////////////////////////
             newMsg.mtype = gnEVENT_MTYPE;
-            newMsg.eventType = customer;
-            newMsg.nNeedSeconds = nSeconds;
+            newMsg.mtext[0] = customer;
+            newMsg.mtext[1] = nSeconds;
 
             ////////////////////////////////////////////
             // 2.1.4 gnFreeSeat -= 1
@@ -153,7 +153,7 @@ int main()
                 // msgsnd eventQueue 要放在 lock 的外面
                 // 這樣 Barber thread 才可以順利 recv
             ////////////////////////////////////////////
-            if(msgsnd(nEventQueueId, &newMsg, sizeof(newMsg), 0) < 0)
+            if(msgsnd(nEventQueueId, &newMsg, gnEVENT_MSG_BUFSIZE, 0) < 0)
             {
                 printf(ERROR_EVENT_QUEUE_SEND_FAILURE);
                 continue;
@@ -166,41 +166,45 @@ int main()
             pthread_mutex_lock(&gSofaMutex);
             ////////////////////////////////////////////
             // 2.2.1 lock gSofaMutex
-                // gnFreeSeat = 10
+                // gnFreeSeat = gnTOTAL_SEATS
                 // unlock gSofaMutex
             ////////////////////////////////////////////
-            gnFreeSeat = 10;
+            gnFreeSeat = gnTOTAL_SEATS;
             pthread_mutex_unlock(&gSofaMutex);
 
             ////////////////////////////////////////////
             // 2.2.2 清空 eventQueue
             ////////////////////////////////////////////
-            while(msgrcv(nEventQueueId, &newMsg, sizeof(newMsg), gnEVENT_MTYPE, IPC_NOWAIT) == 0)
-            {}
+            while(msgrcv(
+                nEventQueueId, &newMsg, gnEVENT_MSG_BUFSIZE, gnEVENT_MTYPE, IPC_NOWAIT) == 0)
+            {
+                continue;
+            }
 
             ////////////////////////////////////////////
             // 2.2.3 for loop 3 次 (3 個 barber threads)
             ////////////////////////////////////////////
             for(i = 0; i < gnBARBER_NUM; ++i)
             {
+                ////////////////////////////////////////////
                 // 2.2.3.1 建立新的 eventMessage_t, newMsg
                     // 初始化 newMsg 的參數
                         // eventType = ending
                         // nNeedSecond = 0
+                ////////////////////////////////////////////
                 newMsg.mtype = gnEVENT_MTYPE;
-                newMsg.eventType = ending;
-                newMsg.nNeedSeconds = 0;
+                newMsg.mtext[0] = ending;
+                newMsg.mtext[1] = 0;
 
                 ////////////////////////////////////////////
                 // 2.2.3.2 建立的 newMsg 放入 eventQueue 當中
                     // msgsnd eventQueue 要放在 lock 的外面
                     // 這樣 Barber thread 才可以順利 recv
                 ////////////////////////////////////////////
-                if(msgsnd(nEventQueueId, &newMsg, sizeof(newMsg), 0) < 0)
+                if(msgsnd(nEventQueueId, &newMsg, gnEVENT_MSG_BUFSIZE, 0) < 0)
                 {
                     --i;
                     printf(ERROR_EVENT_QUEUE_SEND_FAILURE);
-                    continue;
                 }
             }
             goto errexit;

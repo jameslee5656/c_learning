@@ -1,5 +1,5 @@
-#include <errno.h>
 #include <stdio.h>
+#include <errno.h>
 #include <pthread.h>
 #include <unistd.h>
 #include <sys/ipc.h>
@@ -19,7 +19,6 @@ void *barberWorkingThread(void *arg)
     int nEventQueueId = 0;
     int nEventQueueRcvResult = 0;
     struct eventMessage_t newMsg;
-    pthread_t self;
 
     ////////////////////////////////////////////
     // 1. 建立一個 IPC queue, eventQueue
@@ -33,14 +32,15 @@ void *barberWorkingThread(void *arg)
         return NULL;
     }
 
-    while(nEventQueueRcvResult =
-        msgrcv(nEventQueueId, &newMsg, sizeof(newMsg), gnEVENT_MTYPE, IPC_NOWAIT))
+    while(1)
     {
+        nEventQueueRcvResult =
+            msgrcv(nEventQueueId, &newMsg, gnEVENT_MSG_BUFSIZE, gnEVENT_MTYPE, IPC_NOWAIT);
         if(nEventQueueRcvResult < 0 && errno == ENOMSG)
         {
             printf("理髮師[%d]正在睡覺\n", nBarberId);
             nEventQueueRcvResult =
-                msgrcv(nEventQueueId, &newMsg, sizeof(newMsg), gnEVENT_MTYPE, 0);
+                msgrcv(nEventQueueId, &newMsg, gnEVENT_MSG_BUFSIZE, gnEVENT_MTYPE, 0);
         }
 
         ////////////////////////////////////////////
@@ -73,7 +73,7 @@ void *barberWorkingThread(void *arg)
         ////////////////////////////////////////////
         // 2.3 if newMsg.eventType_t == customer
         ////////////////////////////////////////////
-        if(newMsg.eventType == customer)
+        if(newMsg.mtext[0] == customer)
         {
             ////////////////////////////////////////////
             // 2.3.1 gnFreeSeat += 1
@@ -85,15 +85,15 @@ void *barberWorkingThread(void *arg)
             ////////////////////////////////////////////
             pthread_mutex_unlock(&gSofaMutex);
 
-            printf("理髮師[%d] 正在理髮 需要%d秒\n", nBarberId, newMsg.nNeedSeconds);
+            printf("理髮師[%d] 正在理髮 需要%d秒\n", nBarberId, newMsg.mtext[1]);
 
             ////////////////////////////////////////////
             // 2.3.3 wait for newMsg.nNeedSecond
             ////////////////////////////////////////////
-            sleep(newMsg.nNeedSeconds);
+            sleep((int) newMsg.mtext[1]);
         }
         // 2.4 else if newMsg.eventType_t == ending
-        else if(newMsg.eventType == ending)
+        else if(newMsg.mtext[0] == ending)
         {
             ////////////////////////////////////////////
             // 2.4.1 unlock gSofaMutex

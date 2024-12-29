@@ -7,13 +7,16 @@ static int gnNextArr[gPATTERN_MAX_LEN];
 
 int createNextTable(char *psPattern)
 {
-    int i, j;
+    int i = 0, j = 0;
     int nPatternLen = 0;
 
+    if (psPattern == NULL)
+        return gERROR_ARGUMENT_INCORRECT;
+
     // Initialize patternLen, and lps
-    nPatternLen = strnlen(psPattern, gPATTERN_MAX_LEN + 10);
+    nPatternLen = strnlen(psPattern, gPATTERN_MAX_LEN - 1);
     if (nPatternLen > gPATTERN_MAX_LEN)
-        return gERROR_GENERAL;
+        return gERROR_PATTERN_TOO_LONG;
 
     memset(gnNextArr, 0, gPATTERN_MAX_LEN);
 
@@ -46,17 +49,22 @@ int kmpSearch(char *psPattern, char *psBibleContent)
 {
     // 1. 建立參數:
     int nPatternIdx = 0, nBibleIdx = 0;
-    int nPatternLen, nBibleLen;
-    int nResult = 0;
+    int nPatternLen = 0, nBibleLen = 0;
+    int nRet = 0, nResult = 0;
 
     if (psPattern == NULL || psBibleContent == NULL)
         return gERROR_ARGUMENT_INCORRECT;
 
-    nPatternLen  = strnlen(psPattern, gPATTERN_MAX_LEN);
+    nPatternLen = strnlen(psPattern, gPATTERN_MAX_LEN);
     nBibleLen = strnlen(psBibleContent, gPATTERN_MAX_LEN);
 
     // 2. 為 pattern 建立 next 表
-    createNextTable(psPattern);
+    nRet = createNextTable(psPattern);
+    if (nRet < 0)
+    {
+        printf(gERROR_MSG_PREPROCESSING_FAILED, gKMP_SEARCH_NAME, nRet);
+        return nRet;
+    }
 
     // 3. while loop until Bible end
     nBibleIdx = 0;

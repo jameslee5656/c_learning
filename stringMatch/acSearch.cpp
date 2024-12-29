@@ -5,7 +5,6 @@
 #include "bibleSearch.hpp"
 
 int gnPatternCount = 0;
-
 typedef struct _node_t
 {
     int isLeaf;
@@ -19,7 +18,8 @@ int buildTree(node* pRoot, char *psPattern)
 {
     int i = 0, nPatternLen = 0;
     unsigned int uKey = 0;
-    node* pNode;
+    node* pNode = NULL;
+    node* pNodeTmp = NULL;
 
     // 1. check pattern is not empty
     if(psPattern == NULL)
@@ -28,7 +28,7 @@ int buildTree(node* pRoot, char *psPattern)
     nPatternLen = strnlen(psPattern, gPATTERN_MAX_LEN);
 
     // 2. check pRoot exist or not
-    if (pRoot == NULL)
+    if (pRoot == NULL || nPatternLen == 0)
         return gERROR_ARGUMENT_INCORRECT;
 
     pNode = pRoot;
@@ -43,11 +43,15 @@ int buildTree(node* pRoot, char *psPattern)
         else
         {
             // 建立節點並初始化
-            pNode->pNextArr[uKey] = (node *) malloc(sizeof(node));
-            pNode = pNode->pNextArr[uKey];
-            memset(pNode, 0, sizeof(node));
-            strncpy(pNode->sContent, psPattern, nPatternLen - 1);
-            pNode->sContent[i + 1] = '\0';
+            pNodeTmp = (node *) malloc(sizeof(node));
+            if (pNodeTmp == NULL)
+                return gERROR_MALLOC_FAILED;
+
+            memset(pNodeTmp, 0, sizeof(node));
+            strncpy(pNodeTmp->sContent, psPattern, nPatternLen - 1);
+            pNodeTmp->sContent[i + 1] = '\0';
+            pNode->pNextArr[uKey] = pNodeTmp;
+            pNode = pNodeTmp;
         }
     }
 
@@ -63,9 +67,12 @@ int buildTree(node* pRoot, char *psPattern)
 int buildFailureLink(node* pCurNode, node *pRoot)
 {
     char sPatternTmp[gPATTERN_ARR_MAX_SIZE];
-    unsigned char uc;
+    unsigned char uc = 0;
     node *pNode = NULL;
-    int i;
+    int i = 0;
+
+    // Initialize
+    memset(sPatternTmp, 0, gPATTERN_ARR_MAX_SIZE);
 
     if(pCurNode == NULL)
         return gERROR_ARGUMENT_INCORRECT;
@@ -145,15 +152,20 @@ int traversal(node* pRoot, char *psBible, int *acResult)
     node *pNode = NULL;
 
     if (pRoot == NULL || psBible == NULL || acResult == NULL)
-        return gERROR_GENERAL;
+        return gERROR_ARGUMENT_INCORRECT;
 
     nBibleLen = strnlen(psBible, gBIBLE_MAX_LEN);
+    if (nBibleLen == 0)
+        return gERROR_ARGUMENT_INCORRECT;
     pNode = pRoot;
 
     // 1. 搜尋整份文件
     uKey = (unsigned char) psBible[nBibleIdx++];
     while (nBibleIdx < nBibleLen)
     {
+        if (pNode == NULL)
+            return gERROR_AC_TRAVERSAL_FAILED;
+
         // 2. if (ptr->pNextArr[c] == NULL)
         if (pNode->pNextArr[uKey] == NULL)
         {
@@ -171,10 +183,7 @@ int traversal(node* pRoot, char *psBible, int *acResult)
 
             // 3.1 如果是最後一個點，pattern 的結果 +1
             if (pNode->isLeaf)
-            {
-                // printf("found leaf! %d\n", pNode->nPattern);
                 ++acResult[pNode->nPattern];
-            }
 
             // 3.2 check failure link has an end
             checkFailureLinkEnd(pNode, pRoot, acResult);
@@ -190,9 +199,32 @@ int traversal(node* pRoot, char *psBible, int *acResult)
     return gSUCCESS;
 }
 
+void freeNode(node* pCurNode)
+{
+    int i = 0;
+
+    if (pCurNode == NULL)
+        return;
+
+    for (i = 0; i < gASCII_NUM; ++i)
+    {
+        if (pCurNode->pNextArr[i])
+        {
+            freeNode(pCurNode->pNextArr[i]);
+            pCurNode->pNextArr[i] = NULL;
+        }
+    }
+
+    if (pCurNode != NULL)
+    {
+        free(pCurNode);
+        pCurNode = NULL;
+    }
+}
+
 int acSearch(char **psPatternArr, int nPatternArrSz, char *psBibleContent, int *acResult)
 {
-    int i = 0, nBibleLen = 0, ret = 0;
+    int i = 0, nBibleLen = 0, nRet = 0;
     node *treeRoot = NULL;
 
     if (psBibleContent == NULL || nPatternArrSz == 0 || psBibleContent == NULL || acResult == NULL)
@@ -202,25 +234,29 @@ int acSearch(char **psPatternArr, int nPatternArrSz, char *psBibleContent, int *
     gnPatternCount = -1;
     nBibleLen = strnlen(psBibleContent, gBIBLE_MAX_LEN);
     treeRoot = (node *) malloc(sizeof(node));
+    if (treeRoot == NULL)
+        return gERROR_MALLOC_FAILED;
+
     memset(treeRoot, 0, sizeof(node));
 
     // 1. build tree with every pattern in patternArray
     for (i = 0; i < nPatternArrSz; ++i)
     {
-        ret = buildTree(treeRoot, psPatternArr[i]);
-        if (ret < 0)
+        nRet = buildTree(treeRoot, psPatternArr[i]);
+        if (nRet < 0)
         {
             printf(gERROR_MSG_AC_SEARCH_BUILD_FAILED, i);
-            return ret;
+            return nRet;
         }
     }
 
     // 2. build failure link
-    ret = buildFailureLink(treeRoot, treeRoot);
-    if (ret < 0)
+    nRet = buildFailureLink(treeRoot, treeRoot);
+    if (nRet < 0)
     {
-        printf(gERROR_MSG_PREPROCESSING_FAILED, gAC_SEARCH_NAME, ret);
-        return ret;
+        printf(gERROR_MSG_PREPROCESSING_FAILED, gAC_SEARCH_NAME, nRet);
+        freeNode(treeRoot);
+        return nRet;
     }
 
     // 3. traverse the tree with bible content
@@ -228,7 +264,7 @@ int acSearch(char **psPatternArr, int nPatternArrSz, char *psBibleContent, int *
 
     if (treeRoot != NULL)
     {
-        free(treeRoot);
+        freeNode(treeRoot);
         treeRoot = NULL;
     }
 

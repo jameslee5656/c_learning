@@ -151,7 +151,7 @@ int bmSearch(char* psPattern, char *psBibleContent)
     int nPatternLen = 0, nBibleLen = 0;
     int nResult = 0, nMove = 0;
     int nBadMove = 0, nGoodMove = 0;
-    int ret = 0;
+    int nRet = 0;
     unsigned char uKey = 0;
 
     // checks to make sure pass in variable is valid
@@ -162,9 +162,9 @@ int bmSearch(char* psPattern, char *psBibleContent)
     nBibleLen = strnlen(psBibleContent, gBIBLE_MAX_LEN);
 
     // 1. create bad character table
-    ret = createBadCharTbl(psPattern);
-    if (ret < 0)
-        printf(gERROR_MSG_PREPROCESSING_FAILED, gBM_SEARCH_NAME, ret);
+    nRet = createBadCharTbl(psPattern);
+    if (nRet < 0)
+        printf(gERROR_MSG_PREPROCESSING_FAILED, gBM_SEARCH_NAME, nRet);
     // printBadCharTbl();
 
     // 2. create good suffix table

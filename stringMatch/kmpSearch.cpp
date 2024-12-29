@@ -15,6 +15,9 @@ int createNextTable(char *psPattern)
 
     // Initialize patternLen, and lps
     nPatternLen = strnlen(psPattern, gPATTERN_MAX_LEN - 1);
+    if (nPatternLen == 0)
+        return gERROR_ARGUMENT_INCORRECT;
+
     if (nPatternLen > gPATTERN_MAX_LEN)
         return gERROR_PATTERN_TOO_LONG;
 
@@ -57,6 +60,9 @@ int kmpSearch(char *psPattern, char *psBibleContent)
 
     nPatternLen = strnlen(psPattern, gPATTERN_MAX_LEN);
     nBibleLen = strnlen(psBibleContent, gPATTERN_MAX_LEN);
+
+    if (nPatternLen == 0 || nBibleLen == 0)
+        return gERROR_ARGUMENT_INCORRECT;
 
     // 2. 為 pattern 建立 next 表
     nRet = createNextTable(psPattern);

@@ -1,8 +1,7 @@
 #include "stdio.h"
 #include "string.h"
 
-#include "kmpSearch.hpp"
-#include "definitions.hpp"
+#include "bibleSearch.hpp"
 
 static int gnNextArr[gPATTERN_MAX_LEN];
 
@@ -50,26 +49,22 @@ int kmpSearch(char *psPattern, char *psBible)
     int nPatternLen, nBibleLen;
     int nResult = 0;
 
+    if (psPattern == NULL || psBible == NULL)
+        return gERROR_ARGUMENT_INCORRECT;
+
     nPatternLen  = strnlen(psPattern, gPATTERN_MAX_LEN);
     nBibleLen = strnlen(psBible, gPATTERN_MAX_LEN);
 
     // 2. 為 pattern 建立 next 表
     createNextTable(psPattern);
 
-    // printf("%s", psPattern);
-    // for (nPatternIdx = 0; nPatternIdx < nPatternLen; ++nPatternIdx)
-        // printf(" %d", next[nPatternIdx]);
-    // printf("\n");
-
     // 3. while loop until Bible end
     nBibleIdx = 0;
     nPatternIdx = 0;
     while (psBible[nBibleIdx] != '\0')
     {
-        // printf("%d %d\n", nBibleIdx, nPatternIdx);
         // 4.1. if (nBibleIdx < 0) or (psPattern[nPatternIdx] == psBible[nBibleIdx])
-            // ++ nBibleIdx;
-            // ++ nPatternIdx;
+        // ++ both of the index
         if ((nPatternIdx < 0) || (psPattern[nPatternIdx] == psBible[nBibleIdx]))
         {
             ++nBibleIdx;
@@ -83,7 +78,7 @@ int kmpSearch(char *psPattern, char *psBible)
             }
         }
         // 4.2.  else
-        // nPatternIndex = next[nPatternIndex]
+        // nPatternIndex = gnNextArr[nPatternIndex]
         else
             nPatternIdx = gnNextArr[nPatternIdx];
     }

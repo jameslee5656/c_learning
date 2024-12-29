@@ -1,0 +1,3 @@
+KMP search spend 678.156143 seconds
+BM search spend 252.944546 seconds
+AC search spend 0.228287 seconds

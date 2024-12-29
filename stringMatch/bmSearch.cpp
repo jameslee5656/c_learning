@@ -24,7 +24,7 @@ int createBadCharTbl(char *psPattern)
     // 1. for loop each character in each position of pattern
     for (i = nPatternLen - 1; i >= 0; --i)
     {
-        // 2. gnBadCharArr[26] pointing to the first position
+        // 2. gnBadCharArr[gnASCII_NUM] pointing to the first position
         uKey = psPattern[i];
         nPos = gnBadCharArr[uKey];
 
@@ -50,13 +50,13 @@ void printBadCharTbl()
     int i = 0, nPos = 0;
 
     printf("*********\n");
-    for (i = 0; i < 26; ++i)
+    for (i = 0; i < gASCII_NUM; ++i)
     {
         nPos = gnBadCharArr[i];
         if (nPos == -1)
             continue;
 
-        printf("%c: %d", i + 'a', nPos);
+        printf("%c: %d", i, nPos);
         while (gnNextBadCharArr[nPos] != -1)
         {
             nPos = gnNextBadCharArr[nPos];
@@ -105,6 +105,7 @@ int createGoodSuffixTbl(char *psPattern)
         gnGoodSuffixArr[i] = j;
     }
     K = gnGoodSuffixArr[nPatternLen - 1];
+    // printf("K: %d\n",K);
 
     // 2. calculate good suffix
     memset(gnGoodSuffixArr, 0, nPatternLen * sizeof(int));
@@ -164,9 +165,11 @@ int bmSearch(char* psPattern, char *psBibleContent)
     ret = createBadCharTbl(psPattern);
     if (ret < 0)
         printf(gERROR_MSG_PREPROCESSING_FAILED, gBM_SEARCH_NAME, ret);
+    // printBadCharTbl();
 
     // 2. create good suffix table
     createGoodSuffixTbl(psPattern);
+    // printGoodSuffix(nPatternLen);
 
     // 3. while loop and start comparing pattern and text
     while (nBibleIdx < nBibleLen)
@@ -190,8 +193,10 @@ int bmSearch(char* psPattern, char *psBibleContent)
         while (nBadMove != -1 && nBadMove > nBibleIdx)
             nBadMove = gnNextBadCharArr[nBadMove];
 
+        // Ca -> aa, while comparing c & a, you shouldn't jump the full pattern
         if (nBadMove == -1)
-            nBadMove = nPatternLen;
+            // nBadMove = nPatternIdx;
+            nBadMove = nPatternIdx + 1;
         else
             nBadMove = nPatternIdx - nBadMove;
 

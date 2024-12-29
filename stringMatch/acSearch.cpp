@@ -94,6 +94,7 @@ int buildFailureLink(node* pCurNode, node *pRoot)
         // 3. while 要比對的是尾巴，取得字串後暫存於sPatternTmp
         while(strlen(sPatternTmp) > 0)
         {
+            // 3.1 將頭一個 pattern 移除
             strncpy(sPatternTmp, &sPatternTmp[1], gPATTERN_MAX_LEN - 1);
             sPatternTmp[gPATTERN_MAX_LEN - 1] = '\0';
             if (sPatternTmp[0] == '\0')
@@ -113,7 +114,7 @@ int buildFailureLink(node* pCurNode, node *pRoot)
                 pNode = pNode->pNextArr[uc];
             }
 
-            // 4. 找到了 pFailureLink 指向 找到的節點
+            // 3.3 找到了 pFailureLink 指向 找到的節點
             // pattern比對 到結尾字串，代表找到了
             if(sPatternTmp[i] == '\0')
             {
@@ -122,7 +123,7 @@ int buildFailureLink(node* pCurNode, node *pRoot)
             }
         }
 
-        // 5. 沒找到， pFailureLink 指向 root
+        // 4. 沒找到， pFailureLink 指向 root
         // pattern(szTmp)被 移除 只剩結尾字元
         if (sPatternTmp[0] == '\0')
             pCurNode->pFailureLink = pRoot;

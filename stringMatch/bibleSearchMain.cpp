@@ -79,6 +79,9 @@ int main()
     {
         nBibleLineLen = strnlen(buf, gBUFFER_MAX_SIZE);
 
+        if (nBibleLineLen == 0)
+            continue;
+
         // make upper alphabet become lower
         for (j = 0; j < nBibleLineLen; ++j)
         {

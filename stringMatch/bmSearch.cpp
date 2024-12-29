@@ -209,9 +209,7 @@ int bmSearch(char* psPattern, char *psBibleContent)
         while (nBadMove != -1 && nBadMove > nBibleIdx)
             nBadMove = gnNextBadCharArr[nBadMove];
 
-        // Ca -> aa, while comparing c & a, you shouldn't jump the full pattern
         if (nBadMove == -1)
-            // nBadMove = nPatternIdx;
             nBadMove = nPatternIdx + 1;
         else
             nBadMove = nPatternIdx - nBadMove;

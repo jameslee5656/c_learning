@@ -18,6 +18,9 @@ int createBadCharTbl(char *psPattern)
         return gERROR_ARGUMENT_INCORRECT;
 
     nPatternLen = strnlen(psPattern, gPATTERN_MAX_LEN);
+    if (nPatternLen == 0)
+        return gERROR_ARGUMENT_INCORRECT;
+
     memset(gnBadCharArr, -1, gASCII_NUM * sizeof(int));
     memset(gnNextBadCharArr, -1, gPATTERN_MAX_LEN * sizeof(int));
 
@@ -82,6 +85,8 @@ int createGoodSuffixTbl(char *psPattern)
 
     memset(gnGoodSuffixArr, 0, nPatternLen * sizeof(int));
     nPatternLen = strnlen(psPattern, gPATTERN_MAX_LEN);
+    if (nPatternLen == 0)
+        return gERROR_ARGUMENT_INCORRECT;
 
     // 1. calculating longest prefix suffix with KMP
     gnGoodSuffixArr[0] = 0;
@@ -161,14 +166,25 @@ int bmSearch(char* psPattern, char *psBibleContent)
     nPatternLen = strnlen(psPattern, gPATTERN_MAX_LEN);
     nBibleLen = strnlen(psBibleContent, gBIBLE_MAX_LEN);
 
+    if (nPatternLen == 0 || nBibleLen == 0)
+        return gERROR_ARGUMENT_INCORRECT;
+
     // 1. create bad character table
     nRet = createBadCharTbl(psPattern);
     if (nRet < 0)
+    {
         printf(gERROR_MSG_PREPROCESSING_FAILED, gBM_SEARCH_NAME, nRet);
+        return nRet;
+    }
     // printBadCharTbl();
 
     // 2. create good suffix table
-    createGoodSuffixTbl(psPattern);
+    nRet = createGoodSuffixTbl(psPattern);
+    if (nRet < 0)
+    {
+        printf(gERROR_MSG_PREPROCESSING_FAILED, gBM_SEARCH_NAME, nRet);
+        return nRet;
+    }
     // printGoodSuffix(nPatternLen);
 
     // 3. while loop and start comparing pattern and text

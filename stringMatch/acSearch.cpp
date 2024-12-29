@@ -233,6 +233,8 @@ int acSearch(char **psPatternArr, int nPatternArrSz, char *psBibleContent, int *
     // Initialize variable
     gnPatternCount = -1;
     nBibleLen = strnlen(psBibleContent, gBIBLE_MAX_LEN);
+    if (nBibleLen == 0)
+        return gERROR_ARGUMENT_INCORRECT;
     treeRoot = (node *) malloc(sizeof(node));
     if (treeRoot == NULL)
         return gERROR_MALLOC_FAILED;

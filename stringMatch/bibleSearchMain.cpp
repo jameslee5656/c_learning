@@ -167,7 +167,7 @@ int main()
     nRet = acSearch(psPatternArr, nPatternArrSz, psBibleContent, acResult);
     if (nRet < 0)
     {
-        printf(gERROR_MSG_SEARCH_FAILED_WITHOUT_PATTERN_IDX, gAC_SEARCH_NAME);
+        printf(gERROR_MSG_SEARCH_FAILED_WITHOUT_PATTERN_IDX, gAC_SEARCH_NAME, nRet);
         goto ERROR;
     }
     gettimeofday(&now, NULL);

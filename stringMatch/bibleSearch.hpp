@@ -19,7 +19,7 @@
 #define gERROR_MSG_PATTERN_ARR_FULL "[Error] Pattern array size > gPATTERN_ARR_MAX_SIZE, unable read all pattern\n"
 #define gERROR_MSG_BIBLE_CONTENT_FULL "[Error] Bible content > gTEXT_MAX_LEN, unable read full bible content\n"
 #define gERROR_MSG_SEARCH_FAILED "[Error] %s failed at patternIdx:%d, return:%d \n"
-#define gERROR_MSG_SEARCH_FAILED_WITHOUT_PATTERN_IDX "[Error] %s failed\n"
+#define gERROR_MSG_SEARCH_FAILED_WITHOUT_PATTERN_IDX "[Error] %s failed, return:%d\n"
 #define gERROR_MSG_AC_SEARCH_BUILD_FAILED "[Error] AC Search build tree failed at pattern %d\n"
 #define gERROR_MSG_PREPROCESSING_FAILED "[Error] %s preprocessing failed, errocode:%d\n"
 #define gERROR_MSG_MALLOC_FAILED "[Error] malloc failed\n"
